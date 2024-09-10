@@ -1,0 +1,23 @@
+﻿.select2 {
+    width: 100%; 
+}
+.select2-container .select2-selection--single {
+    height: 38px; 
+    border: 1px solid #ced4da; 
+    border-radius: .25rem;
+}
+
+.select2-container .select2-selection--single .select2-selection__arrow {
+    top: 50%; 
+    transform: translateY(-50%); 
+    right: 10px; 
+}
+
+.select2-container .select2-results__option {
+    padding: 8px 12px; 
+    cursor: pointer; 
+}
+
+.select2-container .select2-results__option--highlighted {
+    background-color: #f0f0f0; 
+}
