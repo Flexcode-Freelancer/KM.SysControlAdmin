@@ -1,8 +1,15 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section Styles{
+    <link href="/css/Home/DesignHome.css" rel="stylesheet" />
+}
+
+<div class="bienvenida">
+    <div>
+        <img class="elimLogo" src="/assets/img/logos/Logo Kerigma Music.png" alt="Alternate Text" width="200" />
+        <h3 class="font-weight-bold">¡Bienvenido De Vuelta!</h3>
+        <h6 class="font-weight-normal mb-0">Sistema De Control Administrativo - Kerigma Music / IFAD</h6>
+    </div>
 </div>
