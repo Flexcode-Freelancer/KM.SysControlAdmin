@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KM.SysControlAdmin.DAL.Rol___DAL
 {
-    public class RolDAL
+    public class RoleDAL
     {
         #region METODO PARA GUARDAR
         // Metodo Para Guardar Un Nuevo Registro En La Base De Datos
