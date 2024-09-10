@@ -13,4 +13,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KM.SysControlAdmin.BL\KM.SysControlAdmin.BL.csproj" />
+    <ProjectReference Include="..\KM.SysControlAdmin.EN\KM.SysControlAdmin.EN.csproj" />
+  </ItemGroup>
+
 </Project>

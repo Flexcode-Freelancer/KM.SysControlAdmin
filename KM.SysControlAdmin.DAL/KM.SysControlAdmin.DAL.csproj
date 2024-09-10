@@ -15,4 +15,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KM.SysControlAdmin.EN\KM.SysControlAdmin.EN.csproj" />
+  </ItemGroup>
+
 </Project>

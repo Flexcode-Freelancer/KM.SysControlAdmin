@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KM.SysControlAdmin.DAL\KM.SysControlAdmin.DAL.csproj" />
+    <ProjectReference Include="..\KM.SysControlAdmin.EN\KM.SysControlAdmin.EN.csproj" />
+  </ItemGroup>
+
 </Project>
