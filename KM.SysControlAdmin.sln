@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User Interface - UI", "User Interface - UI", "{3FD3800F-AE93-47AE-8901-508562DF1C5B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entities - EN", "Entities - EN", "{249DAD46-E15C-4C1C-9178-2B46496A6C6B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data Access Layer - DAL", "Data Access Layer - DAL", "{32825242-969D-4C82-943E-2A95737DD5FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business Logic - BL", "Business Logic - BL", "{1642F373-E537-49BB-BDA3-1B80372EAB74}"
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {27B513A4-681B-40E0-8D37-5B36C39CA12F}
+	EndGlobalSection
+EndGlobal
