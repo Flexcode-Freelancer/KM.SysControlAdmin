@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KM.SysControlAdmin.EN.Role___EN;
+
 // Referencias Necesarias Para El Correcto Funcionamiento
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +20,7 @@ namespace KM.SysControlAdmin.DAL
     {
         #region REFERENCIAS DE TABLAS DE LA BD
         //Coleccion que hace referencia a las tablas de la base de datos
-
+        public DbSet<Role> Role { get; set; }
         #endregion
 
         #region STRING DE CONEXION
