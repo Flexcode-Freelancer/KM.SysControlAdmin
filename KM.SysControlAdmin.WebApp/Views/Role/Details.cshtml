@@ -1,0 +1,30 @@
+﻿@model KM.SysControlAdmin.EN.Role___EN.Role
+
+@{
+    ViewData["Title"] = "Detalles Del Rol";
+}
+
+<h1>Detalles Del Rol</h1>
+<hr />
+
+<script>
+    async function ShowDetailsPrompt() {
+        const result = await Swal.fire({
+            title: `Detalles Del Rol`,
+            text: `Nombre: ${'@Model.Name'}`,
+            showCloseButton: true,
+            showCancelButton: true,
+            cancelButtonText: 'Regresar',
+            confirmButtonText: 'Modificar',
+            reverseButtons: true
+        });
+
+        // Si el usuario elige modificar, redirige a la acción Edit
+        if (result.isConfirmed) {
+            window.location.href = '@Url.Action("Edit", "Role", new { id = Model.Id })';
+        } else {
+            window.location.href = '@Url.Action("Index", "Role")'; // Redirige a la lista de roles
+        }
+    }
+    window.onload = ShowDetailsPrompt; // Asigna la función ShowDetailsPrompt al evento de carga de la página
+</script>
