@@ -1,7 +1,21 @@
+#region REFERENCIAS
+// Referencias Necesarias Para El Correcto Funcionamiento
+using Microsoft.AspNetCore.Authentication.Cookies;
+
+#endregion
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Configuracion De La Autenticacion De Los Usuario
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie((options) => {
+    options.LoginPath = new PathString("/User/Login");
+    options.AccessDeniedPath = new PathString("/Home/Index");
+    options.ExpireTimeSpan = TimeSpan.FromHours(1);
+    options.SlidingExpiration = true;
+});
 
 var app = builder.Build();
 
@@ -19,6 +33,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication(); // Ponemos En Uso La Autenticación
 
 app.MapControllerRoute(
     name: "default",
