@@ -1,0 +1,192 @@
+﻿@using KM.SysControlAdmin.EN.Role___EN
+@model KM.SysControlAdmin.EN.User___EN.User
+
+@{
+    // Titulo De La Pestaña
+    ViewData["Title"] = "Crear Usuario";
+    List<Role> roles = ViewBag.Roles as List<Role>;
+}
+
+@section Styles {
+    <link href="/css/User/DesignCreateAndEdit.css" rel="stylesheet" />
+}
+
+<h1>Crear Nuevo Usuario</h1>
+<span>@ViewBag.Error</span>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form id="Form" asp-action="Create" onsubmit="CreateRecord(event)" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" placeholder="Ingresar" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" placeholder="Ingresar" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" placeholder="Ingresar" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" placeholder="XXXXXXXX" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword_Aux" class="control-label"></label>
+                    <input asp-for="ConfirmPassword_Aux" class="form-control" placeholder="XXXXXXXX" />
+                    <span asp-validation-for="ConfirmPassword_Aux" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select asp-for="Status" class="form-select">
+                        <option value="">Seleccionar</option>
+                        <option selected value="1">Activo</option>
+                        <option value="2">Inactivo</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdRole" class="control-label"></label>
+                    <select asp-for="IdRole" class="form-select">
+                        <option selected value="">Seleccionar</option>
+                        @foreach (var item in roles!)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="IdRole" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageData" class="control-label"></label>
+                    <input type="file" class="form-control" id="imagen" name="imagen" onchange="mostrarImagen()" asp-for="ImageData" />
+                    <span asp-validation-for="ImageData" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div>
+                <img id="imagenPreview" src="#" alt="Vista previa de la imagen" style="max-width: 100%; max-height: 200px; display: none; border: 1px solid #d3d3d3;" />
+            </div>
+            <br />
+            <div>
+                <input type="submit" value="Guardar Usuario" class="btn btn-primary" /> |
+                <a class="btn btn-outline-secondary" asp-action="Index">Regresar A La Lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Configuracion de Alerta
+        function showErrorAlert(message) {
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error'
+            });
+        }
+        // Mostrar alerta de ViewBag.Error si es necesario
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            @:showErrorAlert('@ViewBag.Error');
+        }
+
+        // En este caso se deja automatizado el correo electronico ya que son de 5 a 10 usuarios oficiales que tendra el sistema,
+        // de lo contrario el usuario se dejaria customizable segunel criterio y estandar de la empresa u organizacion
+
+        // Función para actualizar el campo de correo electrónico
+        function updateEmail() {
+            var name = document.getElementsByName('Name')[0].value;
+            var lastName = document.getElementsByName('LastName')[0].value;
+
+            // Dividir los valores de nombre y apellido por espacios y tomar solo el primer nombre y primer apellido
+            var firstName = name.split(' ')[0];  // Toma el primer nombre
+            var firstLastName = lastName.split(' ')[0];  // Toma el primer apellido
+            var email = firstName + firstLastName + '@@kerigmamusic.com'; // Formatear el correo electrónico
+
+            document.getElementsByName('Email')[0].value = email.toLowerCase(); // Actualizar el campo de correo electrónico
+        }
+
+        // Añadir controladores de eventos para los campos de nombre y apellido
+        document.getElementsByName('Name')[0].addEventListener('input', updateEmail);
+        document.getElementsByName('LastName')[0].addEventListener('input', updateEmail);
+
+        // Función para validar los campos Name y LastName antes de enviar el formulario
+        function validateNameOrLastName(input) {
+            const regex = /^[A-ZÑa-zñáéíóúÁÉÍÓÚ. ]+$/;
+
+            if (!regex.test(input.value.trim())) {
+                // Si el valor no cumple con la expresión regular, mostrar alerta de error
+                Swal.fire({
+                    title: 'Error De Formato',
+                    text: 'Por favor, Ingresa Unicamente Letras En Los Campos Nombre y Apellido.',
+                    icon: 'error'
+                });
+                return false; // Retorna falso si la validación falla
+            }
+
+            return true; // Retorna verdadero si la validación pasa
+        }
+        // Método Para Mostrar Vista Previa De La Imagen Seleccionada
+        function mostrarImagen() {
+            var archivo = document.getElementById('imagen').files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var imagenPreview = document.getElementById('imagenPreview');
+                imagenPreview.src = e.target.result;
+                imagenPreview.style.display = 'block';
+            };
+            reader.readAsDataURL(archivo);
+        }
+        // Función para manejar el evento de envío de formulario
+        function CreateRecord(e) {
+            e.preventDefault(); // Prevenir el envío del formulario
+
+            const form = document.getElementById('Form');
+
+            // Validar los campos Name y LastName
+            const nameInput = document.getElementsByName('Name')[0];
+            const lastNameInput = document.getElementsByName('LastName')[0];
+
+            if (!validateNameOrLastName(nameInput) || !validateNameOrLastName(lastNameInput)) {
+                // Si alguna validación falla, detener la ejecución
+                return;
+            }
+            // Mostrar alerta de confirmación antes de enviar el formulario
+            Swal.fire({
+                title: '¿Guardar Nuevo Registro?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Guardar Registro',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit(); // Enviar el formulario si se confirma la acción
+                }
+            });
+        }
+        // Añadir evento de envío al formulario
+        const form = document.getElementById('Form');
+        if (form) {
+            form.addEventListener('submit', CreateRecord);
+        }
+    </script>
+}
