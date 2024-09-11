@@ -47,6 +47,9 @@ namespace KM.SysControlAdmin.EN.User___EN
         [Display(Name = "Fecha de registro")]
         public DateTime DateCreated { get; set; }
 
+        [Display(Name = "Fecha de Modificación")]
+        public DateTime DateModification { get; set; }
+
         [Display(Name = "Fotografia")]
         public byte[]? ImageData { get; set; }
 
@@ -68,5 +71,10 @@ namespace KM.SysControlAdmin.EN.User___EN
         public string ConfirmPassword_Aux { get; set; } = string.Empty; //propiedad auxiliar
 
         public Role? Role { get; set; } //propiedad de navegación
+    }
+
+    public enum User_Status
+    {
+        ACTIVO = 1, INACTIVO = 2
     }
 }
