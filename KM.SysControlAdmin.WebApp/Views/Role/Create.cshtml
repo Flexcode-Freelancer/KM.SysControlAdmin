@@ -1,0 +1,61 @@
+﻿@model KM.SysControlAdmin.EN.Role___EN.Role
+
+@{
+    // Titulo De La Pestaña
+    ViewData["Title"] = "Crear Rol";
+}
+
+<h1>Crear Nuevo Rol</h1>
+<span>@ViewBag.Error</span>
+<hr />
+
+<script>
+    // Funcion Asyncrona Que espera una respuesta, Ademas de validar y muestra alerta de confirmacion
+    async function ShowCreatePrompt() {
+        const { value: name } = await Swal.fire({
+            title: 'Ingrese El Nombre Del Rol',
+            input: 'text',
+            inputAttributes: {
+                placeholder: 'Ingresar' // Agregamos el atributo para placeholder
+            },
+            inputLabel: 'Nombre del Rol',
+            showCancelButton: true,
+            confirmButtonText: 'Guardar',
+            cancelButtonText: 'Cancelar',
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Por Favor, Ingresa Un Nombre Valido.';
+                } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ/ ]+$/.test(value.trim())) {
+                    return 'Solo Solo Se Permiten Letras y Espacios En El Nombre.';
+                }
+                return ''; // No hay mensaje de error si se supera la validación
+            },
+            reverseButtons: true // Adición de la propiedad 'reverseButtons' para el orden personalizado de los botones
+        });
+
+        if (!name) {
+            window.location.href = '@Url.Action("Index", "Role")'; // Redirigir a la acción Índice si el nombre está vacío
+            return; // Salga de la función si el nombre está vacío
+        }
+
+        document.getElementById('Name').value = name;
+        Swal.fire({
+            title: '¿Guardar Nuevo Registro?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Si, Guardar Registro'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('Form').submit();
+            } else {
+                window.location.href = '@Url.Action("Index", "Role")'; // Redirigir a la acción Índice al hacer clic en el botón 'Cancelar'
+            }
+        });
+    }
+    window.onload = ShowCreatePrompt; // Llamar a la función al cargar la página
+</script>
+
+<form asp-action="Create" id="Form">
+    <div asp-validation-summary="ModelOnly"></div>
+    <input type="hidden" id="Name" name="Name" />
+</form>
