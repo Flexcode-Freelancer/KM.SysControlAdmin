@@ -22,6 +22,6 @@ CREATE TABLE [User](
 GO
 	INSERT INTO [Role] VALUES('Desarrollador');
 GO
-    INSERT INTO [User] (IdRole, [Name], LastName, Email, [Password], [Status], DateCreated) 
-    VALUES (1, 'Flexcode', 'Freelancer', 'DesAdmin@kerigmamusic.com', 'c8aa131427a72781b156ac723ddb917f', 1, SYSDATETIME());
+    INSERT INTO [User] (IdRole, [Name], LastName, Email, [Password], [Status], DateCreated, DateModification) 
+    VALUES (1, 'Flexcode', 'Freelancer', 'DesAdmin@kerigmamusic.com', 'c8aa131427a72781b156ac723ddb917f', 1, SYSDATETIME(), SYSDATETIME());
 GO
