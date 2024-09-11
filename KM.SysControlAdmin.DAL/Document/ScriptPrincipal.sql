@@ -15,6 +15,7 @@ CREATE TABLE [User](
     [Password] VARCHAR(100) NOT NULL,
     [Status] TINYINT NOT NULL,
     DateCreated DATETIME NOT NULL,
+    DateModification DATETIME NOT NULL,
 	ImageData VARBINARY(MAX) NULL,
 	IdRole INT NOT NULL FOREIGN KEY REFERENCES [Role](Id)
     );
