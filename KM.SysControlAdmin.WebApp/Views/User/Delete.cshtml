@@ -1,0 +1,95 @@
+﻿@model KM.SysControlAdmin.EN.User___EN.User
+
+@{
+    ViewData["Title"] = "Eliminar Usuario";
+}
+
+<h1>Eliminar Usuario Existente</h1>
+<p class="alert alert-danger">Estas Seguro De Eliminar el Siguiente Registro? Recuerda No Puedes Revertir Los Cambios</p>
+<span>@ViewBag.Error</span>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.LastName)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.LastName)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Email)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Status)</dt>
+                @if (Model.Status == 1)
+                {
+                    <dd class="col-sm-8">Activo</dd>
+                }
+                else if (Model.Status == 2)
+                {
+                    <dd class="col-sm-8">Inactivo</dd>
+                }
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.IdRole)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Role!.Name)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateCreated)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DateCreated)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateModification)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DateModification)</dd>
+
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="row">
+                <dd class="col-sm-8"><img id="imagenPreview" src="@(ViewBag.ImageUrl != null ? "data:image/jpeg;base64," + ViewBag.ImageUrl : "")" alt="Vista previa de la imagen" style="max-width: 100%; max-height: 200px;" /></dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<br />
+<div>
+    
+    <form id="Form" asp-action="Delete" onsubmit="CreateRecord(event)">
+        <input type="submit" value="Eliminar Usuario" class="btn btn-primary" /> |
+        <a class="btn btn-outline-secondary" asp-action="Index">Regresar A La Lista</a>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        // Función para mostrar una alerta de error utilizando SweetAlert2
+        function showErrorAlert(message) {
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error'
+            });
+        }
+        // Mostrar alerta de ViewBag.Error si es necesario
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            @:showErrorAlert('@ViewBag.Error');
+        }
+        // Funcion para la alerta
+        function CreateRecord(e) {
+            e.preventDefault();
+            const form = document.getElementById('Form');
+
+            Swal.fire({
+                title: '¿Eliminar Este Registro?',
+                text: '¿Estas Seguro De Eliminar el Siguiente Registro? Recuerda No Puedes Revertir Los Cambios',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si, Eliminar Registro',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}
