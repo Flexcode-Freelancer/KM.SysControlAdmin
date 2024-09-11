@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using static System.Net.Mime.MediaTypeNames;
 
 
 #endregion
@@ -58,10 +59,24 @@ namespace KM.SysControlAdmin.WebApp.Controllers.User___Controller
         [Authorize(Roles = "Desarrollador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(User user)
+        public async Task<IActionResult> Create(User user, IFormFile imagen)
         {
             try
             {
+                // Mapeo de img a ArrayByte
+                if (imagen != null && imagen.Length > 0)
+                {
+                    byte[] imagenData = null!;
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await imagen.CopyToAsync(memoryStream);
+                        imagenData = memoryStream.ToArray();
+                    }
+
+                    user.ImageData = imagenData; // Asigna el array de bytes al campo de la imagen en tu modelo Membership
+                }
+                user.DateCreated = DateTime.Now;
+                user.DateModification = DateTime.Now;
                 int result = await userBL.CreateAsync(user);
                 TempData["SuccessMessageCreate"] = "Usuario Agregado Exitosamente";
                 return RedirectToAction(nameof(Index));
