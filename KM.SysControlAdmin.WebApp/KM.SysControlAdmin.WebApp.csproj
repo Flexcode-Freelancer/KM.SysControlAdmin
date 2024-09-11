@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\plugins\DataTables\js\" />
     <Folder Include="wwwroot\plugins\SweetAlert2\js\" />
   </ItemGroup>
 
