@@ -1,0 +1,91 @@
+﻿@model KM.SysControlAdmin.EN.User___EN.User
+
+@{
+    ViewData["Title"] = "Detalles Del Usuario";
+}
+
+<h1>Detalles Del Usuario</h1>
+<span>@ViewBag.Error</span>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.LastName)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.LastName)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Email)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Status)</dt>
+                @if (Model.Status == 1)
+                {
+                    <dd class="col-sm-8">Activo</dd>
+                }
+                else if (Model.Status == 2)
+                {
+                    <dd class="col-sm-8">Inactivo</dd>
+                }
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.IdRole)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Role!.Name)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateCreated)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DateCreated)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateModification)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DateModification)</dd>
+
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="row">
+                <dd class="col-sm-8"><img id="imagenPreview" src="@(ViewBag.ImageUrl != null ? "data:image/jpeg;base64," + ViewBag.ImageUrl : "")" alt="Vista previa de la imagen" style="max-width: 100%; max-height: 200px;" /></dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<br />
+<div>
+    @Html.ActionLink("Modificar Usuario", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary", id = "modifyButton" }) |
+    <a class="btn btn-outline-secondary" asp-action="Index">Regresar A La Lista</a>
+</div>
+
+@section Scripts {
+    <script>
+        // Función para mostrar una alerta de error utilizando SweetAlert2
+        function showErrorAlert(message) {
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error'
+            });
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            // Mostrar alerta de ViewBag.Error si es necesario
+            @if (!string.IsNullOrEmpty(ViewBag.Error))
+            {
+                @:showErrorAlert('@ViewBag.Error');
+            }
+            // Agregar el evento de clic al botón de modificar
+            document.getElementById('modifyButton').addEventListener('click', function (event) {
+                event.preventDefault(); // Prevenir la acción predeterminada del enlace
+                Swal.fire({
+                    title: '¿Ir a La Vista Modificar?',
+                    text: "¿Estás seguro de que quieres ir a la vista Modificar?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, Ir a La Vista Modificar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '@Url.Action("Edit", "User", new { id = Model.Id })';
+                    }
+                });
+            });
+        });
+    </script>
+}
