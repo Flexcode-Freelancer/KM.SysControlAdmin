@@ -240,7 +240,7 @@ namespace KM.SysControlAdmin.DAL.User___DAL
                     result = await dbContext.SaveChangesAsync();
                 }
                 else
-                    throw new Exception("La Contraseña Es Invalida.");
+                    throw new Exception("Vuelve a Intentarlo Nuevamente");
             }
             return result;
         }
