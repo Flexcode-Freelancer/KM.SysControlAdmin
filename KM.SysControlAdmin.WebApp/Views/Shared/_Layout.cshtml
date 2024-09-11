@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Kerigma Music</title>
-    <link rel="icon" href="~/assets/img/logos/Icon Kerigma Music.png" type="image/x-icon">
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/KM.SysControlAdmin.WebApp.styles.css" asp-append-version="true" />
-    @* Referencias De La Plantilla Front-End *@
+
+    <link rel="icon" href="~/assets/img/logos/Icon Kerigma Music.png" type="image/x-icon">
+    <link href="~/plugins/SweetAlert2/css/min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/assets/css/styles.min.css" />
     <link href="~/assets/css/custom.css" rel="stylesheet" />
 </head>
@@ -140,33 +140,37 @@
     }
     else
     {
-        <div>
-            <main role="main">
-                @RenderBody()
-            </main>
+        <main role="main">
+            @RenderBody()
+        </main>
+        <!-- Footer -->
+        <div class="py-4 px-4 text-center">
+            <p class="mb-0 fs-4">&copy; Desing For FlexcodeFreelancer - Kerigma Music - IFAD 2024</p>
         </div>
     }
 
-    @section Scripts{
-        @* Alerta de confirmacion *@
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                document.getElementById('logoutLink').addEventListener('click', function () {
-                    Swal.fire({
-                        title: '¿Está seguro de que desea cerrar sesión?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sí, Cerrar sesión',
-                        cancelButtonText: 'Cancelar'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = '@Url.Action("Logout", "User")';
-                        }
-                    });
+    @* Alerta de confirmacion *@
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('logoutLink').addEventListener('click', function () {
+                Swal.fire({
+                    title: '¿Está seguro de que desea cerrar sesión?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, Cerrar Sesión',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '@Url.Action("Logout", "User")';
+                    }
                 });
             });
-        </script>
-    }
+        });
+    </script>
+
+    @* Referencias Plugins Para El Proyecto *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/plugins/SweetAlert2/js/min.js"></script>
 
     @* Referencias De La Plantilla Front-End *@
     <script src="~/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -175,9 +179,7 @@
     <script src="~/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="~/assets/libs/simplebar/dist/simplebar.js"></script>
     <script src="~/assets/js/dashboard.js"></script>
-    @* /// ********************-********************** *@
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
     @await RenderSectionAsync("Styles", required: false)
 </body>
