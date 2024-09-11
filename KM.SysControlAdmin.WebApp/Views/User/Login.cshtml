@@ -1,0 +1,60 @@
+﻿@* Referencias Necesarias Para El Correcto Funcionamiento *@
+@model KM.SysControlAdmin.EN.User___EN.User
+
+@{
+    // Titulo De La Pestaña
+    ViewData["Title"] = "Inicio De Sesión";
+}
+
+<!--  Body Wrapper -->
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+     data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="d-flex align-items-center justify-content-center w-100">
+            <div class="row justify-content-center w-100">
+                <div class="col-md-8 col-lg-6 col-xxl-3">
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                                <img src="/assets/img/logos/Logo Kerigma Music.png" width="180" alt="">
+                            </a>
+                            <p class="text-center">Sistema de Registro Administrativo</p>
+                            <form asp-action="Login">
+                                <div class="mb-3">
+                                    <label asp-for="Email" class="form-label"></label>
+                                    <input class="form-control" asp-for="Email" aria-describedby="emailHelp" placeholder="Correo Electronico" required>
+                                    <span asp-validation-for="Email"></span>
+                                </div>
+                                <div class="mb-4">
+                                    <label asp-for="Password" class="form-label"></label>
+                                    <input class="form-control" asp-for="Password" placeholder="Contraseña" required>
+                                    <span asp-validation-for="Password"></span>
+                                </div>
+                                <input class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" type="submit" value="Iniciar Sesión"></input!>
+                                <br />
+                                <span class="text-danger">@ViewBag.Error</span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        // Funcion De Configuracion De Alert
+        function showErrorAlert(message) {
+            Swal.fire({
+                title: 'Ups!',
+                text: message,
+                icon: 'error'
+            });
+        }
+        // Mostrar alerta de ViewBag.Error si es necesario
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            @:showErrorAlert('@ViewBag.Error');
+        }
+    </script>
+}
