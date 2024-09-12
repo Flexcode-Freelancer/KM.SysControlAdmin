@@ -21,12 +21,12 @@ namespace KM.SysControlAdmin.EN.User___EN
 
         [Required(ErrorMessage = "El nombre es requerido")]
         [MaxLength(50, ErrorMessage = "Máximo 50 caracteres")]
-        [Display(Name = "Nombre")]
+        [Display(Name = "Nombres")]
         public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El apellido es requerido")]
         [MaxLength(50, ErrorMessage = "Máximo 50 caracteres")]
-        [Display(Name = "Apellido")]
+        [Display(Name = "Apellidos")]
         public string LastName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El Correo Electronico es requerido")]
@@ -44,10 +44,10 @@ namespace KM.SysControlAdmin.EN.User___EN
         [Display(Name = "Estado")]
         public byte Status { get; set; }
 
-        [Display(Name = "Fecha de registro")]
+        [Display(Name = "Fecha De Creación")]
         public DateTime DateCreated { get; set; }
 
-        [Display(Name = "Fecha de Modificación")]
+        [Display(Name = "Fecha De Modificación")]
         public DateTime DateModification { get; set; }
 
         [Display(Name = "Fotografia")]
@@ -67,7 +67,7 @@ namespace KM.SysControlAdmin.EN.User___EN
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
         [StringLength(32, ErrorMessage = "La contraseña debe tener entre 6 y 32 caracteres", MinimumLength = 6)]
-        [Display(Name = "Confirmar la contraseña")]
+        [Display(Name = "Confirmar Contraseña")]
         public string ConfirmPassword_Aux { get; set; } = string.Empty; //propiedad auxiliar
 
         public Role? Role { get; set; } //propiedad de navegación
