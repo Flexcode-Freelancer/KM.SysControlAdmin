@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KM.SysControlAdmin.EN.Role___EN;
+using KM.SysControlAdmin.EN.Trainer___EN;
 using KM.SysControlAdmin.EN.User___EN;
 
 
@@ -24,6 +25,7 @@ namespace KM.SysControlAdmin.DAL
         //Coleccion que hace referencia a las tablas de la base de datos
         public DbSet<Role> Role { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Trainer> Trainer { get; set; }
         #endregion
 
         #region STRING DE CONEXION
