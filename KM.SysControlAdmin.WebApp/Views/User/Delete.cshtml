@@ -59,6 +59,11 @@
 </div>
 
 @section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
     <script>
         // Función para mostrar una alerta de error utilizando SweetAlert2
         function showErrorAlert(message) {

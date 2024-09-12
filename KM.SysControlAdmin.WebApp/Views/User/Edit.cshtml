@@ -91,6 +91,11 @@
 
 
 @section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
     <script>
         // Ejecuta cuando el documento esté listo
         $(document).ready(function () {
