@@ -87,7 +87,8 @@
                 <td>
                     @Html.ActionLink("Modificar", "Edit", new { id = item.Id }, new { @class = "btn btn-warning m-1" }) |
                     @Html.ActionLink("Detalles", "Details", new { id = item.Id }, new { @class = "btn btn-outline-info m-1" }) |
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-danger m-1" })
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-danger m-1" }) |
+                    @Html.ActionLink("PDF", "GeneratePDFfile", new { id = item.Id }, new { @class = "btn btn-outline-info m-1" })
                 </td>
             </tr>
         }
