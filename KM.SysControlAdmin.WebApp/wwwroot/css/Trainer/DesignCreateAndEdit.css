@@ -1,0 +1,15 @@
+﻿.form-group-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Espacio entre elementos */
+}
+
+.form-group-row .form-group {
+    flex: 1;
+}
+
+.image-barcode {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

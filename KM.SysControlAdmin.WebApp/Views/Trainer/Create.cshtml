@@ -1,0 +1,256 @@
+﻿@model KM.SysControlAdmin.EN.Trainer___EN.Trainer
+
+@{
+    ViewData["Title"] = "Crear Instructor/Docente";
+}
+
+@section Styles{
+    <link href="/css/Trainer/DesignCreateAndEdit.css" rel="stylesheet" />
+}
+
+<h1>Crear Nuevo Instructor/Docente</h1>
+<span>@ViewBag.Error</span>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form id="Form" asp-action="Create" onsubmit="CreateRecord(event)" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h2>Informacion Personal</h2>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" required placeholder="Ingresar" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" required placeholder="Ingresar" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Dui" class="control-label"></label>
+                    <input asp-for="Dui" class="form-control" id="inputDui" required placeholder="Ingresar" />
+                    <span asp-validation-for="Dui" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="DateOfBirth" class="control-label"></label>
+                    <input asp-for="DateOfBirth" class="form-control" required />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Age" class="control-label"></label>
+                    <input asp-for="Age" class="form-control" readonly required placeholder="Ingresar" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Gender" class="control-label"></label>
+                    <select name="Gender" class="form-select" required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                    </select>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CivilStatus" class="control-label"></label>
+                    <select name="CivilStatus" class="form-select" required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="Soltero/a">Soltero/a</option>
+                        <option value="Casado/a">Casado/a</option>
+                        <option value="Divorciado/a">Divorciado/a</option>
+                        <option value="Viudo/a">Viudo/a</option>
+                    </select>
+                    <span asp-validation-for="CivilStatus" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="Phone" class="control-label"></label>
+                    <input asp-for="Phone" class="form-control" id="inputPhone" required placeholder="Ingresar" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select name="Status" class="form-select" required>
+                        <option value="">Seleccionar</option>
+                        <option value="1">Activo</option>
+                        <option value="2">Inactivo</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="imagen">Fotografia:</label>
+                    <input type="file" id="imagen" class="form-control" name="imagen" onchange="mostrarImagen()" asp-for="ImageData" />
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" required placeholder="Ingresar" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CommentsOrObservations" class="control-label"></label>
+                    <input asp-for="CommentsOrObservations" class="form-control" required placeholder="Ingresar" />
+                    <span asp-validation-for="CommentsOrObservations" class="text-danger"></span>
+                </div>
+            </div>            
+            <br />
+            <div>
+                <img id="imagenPreview" src="#" alt="Vista previa de la imagen" style="max-width: 100%; max-height: 200px; display: none; border: 1px solid #d3d3d3;" />
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Crear Instructor/Docente" class="btn btn-primary" /> |
+                <a class="btn btn-outline-secondary" asp-action="Index">Regresar a La Lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Mostrar alerta de error
+        function showErrorAlert(message) {
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error'
+            });
+        }
+
+        // Mostrar alerta de error de ViewBag.Error si es necesario
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            @:showErrorAlert('@ViewBag.Error');
+        }
+
+        // Eventos automatizados al cargar el documento
+        document.addEventListener("DOMContentLoaded", function () {
+            // Función para formatear el DUI
+            function formatDui(inputValue) {
+                inputValue = inputValue.replace(/\D/g, ''); // Remover todos los caracteres que no sean dígitos
+                var formattedValue = '';
+                for (var i = 0; i < inputValue.length; i++) {
+                    if (i == 8) {
+                        formattedValue += '-' + inputValue.charAt(i);
+                    } else {
+                        formattedValue += inputValue.charAt(i);
+                    }
+                }
+                formattedValue = formattedValue.substring(0, 10); // Limitar la longitud total a 10 caracteres, incluyendo el guion
+                return formattedValue;
+            }
+
+            // Calcular la edad en base a la fecha de nacimiento
+            const birthDateInput = document.querySelector('input[name="DateOfBirth"]');
+            const ageInput = document.querySelector('input[name="Age"]');
+
+            function calculateAge() {
+                const birthDateValue = birthDateInput.value.trim();
+                if (birthDateValue !== "") {
+                    const birthDate = new Date(birthDateValue);
+                    const currentDate = new Date();
+                    let age = currentDate.getFullYear() - birthDate.getFullYear(); // Calcular la edad restando el año de nacimiento del año actual
+
+                    // Ajustar la edad si la fecha de nacimiento aún no ha ocurrido este año
+                    if (birthDate.getMonth() > currentDate.getMonth() ||
+                        (birthDate.getMonth() === currentDate.getMonth() && birthDate.getDate() > currentDate.getDate())) {
+                        age--;
+                    }
+                    ageInput.value = age; // Actualizar el campo de edad
+                } else {
+                    ageInput.value = ""; // Desactivar el campo de edad si no se proporciona ninguna fecha de nacimiento
+                }
+            }
+
+            // Función para formatear el número de teléfono
+            const inputPhone = document.getElementById('inputPhone');
+
+            function formatPhoneNumber(input) {
+                let phoneNumber = input.value.replace(/\D/g, ''); // Eliminar cualquier carácter que no sea número
+                if (phoneNumber.length > 4) {
+                    phoneNumber = phoneNumber.slice(0, 4) + '-' + phoneNumber.slice(4, 8); // Formatear el número con un guion después de los primeros 4 dígitos
+                }
+                input.value = phoneNumber;
+            }
+
+            // Asignar eventos
+            document.getElementById('inputDui').addEventListener('input', function (event) {
+                var inputValue = event.target.value;
+                var formattedValue = formatDui(inputValue);
+                event.target.value = formattedValue;
+                actualizarCodigoDeBarras(); // Asumiendo que existe una función para actualizar el código de barras
+            });
+
+            birthDateInput.addEventListener('change', calculateAge); // Agregar detector de eventos para el cambio en la fecha de nacimiento
+            inputPhone.addEventListener('input', function (e) {
+                formatPhoneNumber(e.target);
+            });
+
+            calculateAge(); // Calcular la edad cuando se carga la página
+        });
+
+        // Método para mostrar vista previa de la imagen seleccionada
+        function mostrarImagen() {
+            var archivo = document.getElementById('imagen').files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var imagenPreview = document.getElementById('imagenPreview');
+                imagenPreview.src = e.target.result;
+                imagenPreview.style.display = 'block';
+            };
+            reader.readAsDataURL(archivo);
+        }
+
+        // Alerta con SweetAlert2 para crear un registro
+        function CreateRecord(e) {
+            e.preventDefault();
+            const form = document.getElementById('Form');
+            const inputs = document.querySelectorAll('.form-input');
+            const nameFields = ['Name', 'LastName'];
+            const regex = /^[A-ZÑa-zñáéíóúÁÉÍÓÚ. ]+$/;
+
+            let isValid = true;
+
+            // Validar que los campos nameFields solo contengan letras, punto y espacios
+            nameFields.forEach((field) => {
+                const input = document.querySelector(`#${field}`);
+                if (!regex.test(input.value)) {
+                    isValid = false;
+                }
+            });
+
+            // Si la validación falla, muestra una alerta advirtiendo al usuario
+            if (!isValid) {
+                Swal.fire({
+                    title: '!Advertencia!',
+                    text: 'Ciertos Campos Solo Deben Tener Letras, Revisa Tu Ficha',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+
+            // Si todos los campos son válidos, muestra la alerta de confirmación
+            Swal.fire({
+                title: '¿Guardar Nuevo Registro?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Guardar Registro',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}
