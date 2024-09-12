@@ -1,0 +1,177 @@
+﻿@model IEnumerable<KM.SysControlAdmin.EN.Trainer___EN.Trainer>
+
+@{
+    // Titulo De La Pestaña
+    ViewData["Title"] = "Instructores/Docentes";
+}
+
+<h1>Mantenimiento Para Instructores/Docentes</h1>
+<hr />
+<div class="container">
+    <form asp-action="Index">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Name">Nombre</label>
+                    <input type="text" class="form-control" name="Name" placeholder="Ingresar" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Name">Apellido</label>
+                    <input type="text" class="form-control" name="LastName" placeholder="Ingresar" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Name">Dui</label>
+                    <input type="text" class="form-control" name="Dui" placeholder="Ingresar" id="inputDui" />
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <input type="submit" class="btn btn-outline-success m-1" value="Buscar Instructor/Docente" /> |
+                    <a asp-action="Create" class="btn btn-primary">Crear Nuevo Instructor/Docente</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<br />
+<br />
+<h2>Tabla de Resultados</h2>
+<br />
+<table id="ResultData" class="hover" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dui)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CivilStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dui)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CivilStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.ActionLink("Modificar", "Edit", new { id = item.Id }, new { @class = "btn btn-warning m-1" }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.Id }, new { @class = "btn btn-outline-info m-1" }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-danger m-1" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        // Configuracion para la tabla principal
+        new DataTable('#ResultData', {
+            info: false,
+            order: false,
+            Response: true,
+            pagingType: 'simple_numbers',
+            language: {
+                search: 'Busqueda Rapida :',
+                searchPlaceholder: 'Ingresar',
+                lengthMenu: '_MENU_ Mostrar',
+                emptyTable: 'No Hay Datos Que Coincidan Con Su Criterio De Búsqueda.',
+                zeroRecords: 'No Existen Registros Segun La Busqueda',
+                processing: 'Procesando...',
+            }
+        });
+        // Función para formatear el Dui
+        function formatDui(inputValue) {
+            inputValue = inputValue.replace(/\D/g, ''); // Remover todos los caracteres que no sean dígitos
+            var formattedValue = '';
+            for (var i = 0; i < inputValue.length; i++) {
+                if (i == 8) {
+                    formattedValue += '-' + inputValue.charAt(i);
+                } else {
+                    formattedValue += inputValue.charAt(i);
+                }
+            }
+            formattedValue = formattedValue.substring(0, 10); // Limitar la longitud total a 10 caracteres, incluyendo el guion
+            return formattedValue;
+        }
+
+        // Función para actualizar el código de barras (añadir implementación según sea necesario)
+        function actualizarCodigoDeBarras() {
+            // Implementar la lógica para actualizar el código de barras basado en el Dui
+        }
+
+        // Configuración de las notificaciones
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 8000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+        });
+
+        // Comprobar si hay mensajes de éxito y mostrar notificaciones del sistema
+        const successMessages = {
+            Creado: '@TempData["SuccessMessageCreate"]',
+            Modificado: '@TempData["SuccessMessageUpdate"]',
+            Eliminado: '@TempData["SuccessMessageDelete"]'
+        };
+
+        for (const messageType in successMessages) {
+            const message = successMessages[messageType];
+            if (message) {
+                Toast.fire({
+                    icon: "success",
+                    title: `¡${messageType} Exitosamente!`,
+                    text: message
+                });
+            }
+        }
+
+        // Eventos automatizados
+        document.addEventListener("DOMContentLoaded", function () {
+            // Asignar eventos al inputDui
+            document.getElementById('inputDui').addEventListener('input', function (event) {
+                var inputValue = event.target.value;
+                var formattedValue = formatDui(inputValue);
+                event.target.value = formattedValue;
+                actualizarCodigoDeBarras();
+            });
+        });
+    </script>
+
+}
