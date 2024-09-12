@@ -1,0 +1,114 @@
+﻿@model KM.SysControlAdmin.EN.Trainer___EN.Trainer
+
+@{
+    // Titulo De La Pestaña
+    ViewData["Title"] = "Detalles de Instructor/Docente";
+}
+
+<h1>Detalles Del Instructor/Docente</h1>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Información Personal</h2>
+            <dl class="row">
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.LastName)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.LastName)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Dui)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Dui)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateOfBirth)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DateOfBirth)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Age)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Age)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Gender)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Gender)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CivilStatus)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.CivilStatus)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Phone)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Phone)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Address)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Address)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Status)</dt>
+                @if (Model.Status == 1)
+                {
+                    <dd class="col-sm-8">Activo</dd>
+                }
+                else if (Model.Status == 2)
+                {
+                    <dd class="col-sm-8">Inactivo</dd>
+                }
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CommentsOrObservations)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.CommentsOrObservations)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateCreated)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DateCreated)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateModification)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DateModification)</dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="row">
+                <dd class="col-sm-8">
+                    <img id="imagenPreview" src="@(ViewBag.ImageUrl != null ? "data:image/jpeg;base64," + ViewBag.ImageUrl : "")" alt="Vista previa de la imagen" style="max-width: 100%; max-height: 200px;" />
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Modificar Instructor/Docente", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary", id = "modifyButton" }) |
+    <a class="btn btn-outline-secondary" asp-action="Index">Regresar a La Lista</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function showErrorAlert(message) {
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error'
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Mostrar alerta de ViewBag.Error si es necesario
+            @if (!string.IsNullOrEmpty(ViewBag.Error))
+            {
+                @:showErrorAlert('@ViewBag.Error');
+            }
+
+            // Agregar el evento de clic al botón de modificar
+            document.getElementById('modifyButton').addEventListener('click', function (event) {
+                event.preventDefault(); // Prevenir la acción predeterminada del enlace
+                Swal.fire({
+                    title: '¿Ir a La Vista Modificar?',
+                    text: "¿Estás seguro de que quieres ir a la vista Modificar?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, Ir a La Vista Modificar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '@Url.Action("Edit", "Trainer", new { id = Model.Id })';
+                    }
+                });
+            });
+        });
+    </script>
+}
