@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace KM.SysControlAdmin.WebApp.Controllers
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Desarrollador")]
     public class HomeController : Controller
     {
         [Authorize(Roles = "Desarrollador")]
