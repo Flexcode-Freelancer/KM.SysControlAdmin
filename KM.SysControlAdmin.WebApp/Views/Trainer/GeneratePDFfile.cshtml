@@ -10,21 +10,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ficha Instructor/Docente PDF</title>
+    <link href="/css/Trainer/DesignGeneratePDF.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container">
         <table>
             <tr>
                 <td class="logo">
-                    <img src="/assets/img/logos/Logo Kerigma Music.png" alt="Logo Oficial" width="100%">
+                    <img src="/assets/img/logos/Logo Kerigma Music.png" alt="Logo Oficial">
                 </td>
                 <td class="text">
                     <h1>Ficha Oficial - Kerigma Music</h1>
-                    <h3>Teléfono: 0000-0000  Correo: kerigmamusic@gmail.com</h3>
+                    <h2>Credencial Del Docente o Instructor</h2>
+                    <h3>Teléfono: 0000-0000</h3>
+                    <h3>Correo: kerigmamusic@gmail.com</h3>
                 </td>
             </tr>
         </table>
     </div>
     <br />
+    <div class="container">
+        <table>
+            <tr>
+                <td class="info">
+                    <h1>Información Personal</h1>
+                    <div class="line-group">
+                        <p><strong>@Html.DisplayNameFor(model => model.Name):</strong> @Html.DisplayFor(model => model.Name)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.LastName):</strong> @Html.DisplayFor(model => model.LastName)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.Dui):</strong> @Html.DisplayFor(model => model.Dui)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.DateOfBirth):</strong> @Model.DateOfBirth.ToString("dd/MM/yyyy")</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.Age):</strong> @Html.DisplayFor(model => model.Age) Años</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.Gender):</strong> @Html.DisplayFor(model => model.Gender)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.CivilStatus):</strong> @Html.DisplayFor(model => model.CivilStatus)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.Phone):</strong> @Html.DisplayFor(model => model.Phone)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.Address):</strong> @Html.DisplayFor(model => model.Address)</p>
+                        @if (Model.Status == 1)
+                        {
+                            <p><strong>@Html.DisplayNameFor(model => model.Status):</strong> Activo</p>
+                        }
+                        else if (Model.Status == 2)
+                        {
+                            <p><strong>@Html.DisplayNameFor(model => model.Status):</strong> Inactivo</p>
+                        }
+                        else
+                        {
+                            <p><strong>Estatus:</strong> Sin Designar</p>
+                        }
+                        <p><strong>@Html.DisplayNameFor(model => model.CommentsOrObservations):</strong> @Html.DisplayFor(model => model.CommentsOrObservations)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.DateCreated):</strong> @Html.DisplayFor(model => model.DateCreated)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.DateModification):</strong> @Html.DisplayFor(model => model.DateModification)</p>
+                    </div>
+                </td>
+                <td class="image">
+                    <!-- Fotografía -->
+                    @if (Model.ImageData != null)
+                    {
+                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.ImageData!)" alt="Fotografía" />
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>
