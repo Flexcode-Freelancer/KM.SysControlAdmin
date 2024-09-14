@@ -1,7 +1,9 @@
 ﻿#region REFERENCIAS
 // Referencias Necesarias Para El Correcto Funcionamiento
 using KM.SysControlAdmin.BL.Trainer___BL;
+using KM.SysControlAdmin.BL.User___BL;
 using KM.SysControlAdmin.EN.Trainer___EN;
+using KM.SysControlAdmin.EN.User___EN;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +20,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Trainer___Controller
     {
         // Creamos Una Instancia Para Acceder a Los Metodos
         TrainerBL trainerBL = new TrainerBL();
+        UserBL userBL = new UserBL();
 
         #region METODO PARA MOSTRAR INDEX
         // Accion Para Mostrar La Vista Index
@@ -64,6 +67,23 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Trainer___Controller
                 trainer.DateCreated = DateTime.Now;
                 trainer.DateModification = DateTime.Now;
                 int result = await trainerBL.CreateAsync(trainer);
+
+                // Crear un nuevo objeto de tipo User y mapear las propiedades de Trainer con Server
+                var user = new User
+                {
+                    IdRole = trainer.IdRole,
+                    Name = trainer.Name,
+                    LastName = trainer.LastName,
+                    Email = trainer.Email,
+                    Password = trainer.Password,
+                    Status = trainer.Status,
+                    DateCreated = trainer.DateCreated,
+                    DateModification = trainer.DateModification,
+                    ImageData = trainer.ImageData,
+                };
+
+                // Guardar en la tabla User
+                int resultUser = await userBL.CreateAsync(user);
                 TempData["SuccessMessageCreate"] = "Instructor/Docente Agregado Exitosamente";
                 return RedirectToAction(nameof(Index));
             }

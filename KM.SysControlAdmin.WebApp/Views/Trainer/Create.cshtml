@@ -98,6 +98,24 @@
                 </div>
             </div>            
             <br />
+            <h2>Informacion Adicional</h2>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="IdRole" class="control-label"></label>
+                    <select asp-for="IdRole" class="form-select">
+                        <option selected value="3">Instructor/Docente</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" required placeholder="Ingresar" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" required placeholder="Ingresar" />
+                </div>
+            </div>
+            <br />
             <div>
                 <img id="imagenPreview" src="#" alt="Vista previa de la imagen" style="max-width: 100%; max-height: 200px; display: none; border: 1px solid #d3d3d3;" />
             </div>
