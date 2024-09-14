@@ -43,3 +43,5 @@ CREATE TABLE Trainer(
     ImageData VARBINARY(MAX) NOT NULL,
     );
 GO
+    INSERT INTO [Role] VALUES('Administrador', 'Instructor/Docente');
+GO
