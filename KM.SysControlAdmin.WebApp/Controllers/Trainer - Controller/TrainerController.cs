@@ -239,13 +239,14 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Trainer___Controller
             }
         }
         #endregion
-    
+
         #region METODO PARA REPORTE
-        // Metodo Para Generar Ficha o Reporte En PDF 
+        // Metodo Para Generar Ficha o Reporte En PDF
+        [Authorize(Roles = "Desarrollador")]
         public async Task<ActionResult> GeneratePDFfile(int id)
         {
             var generatePDF = await trainerBL.GetByIdAsync(new Trainer { Id = id });
-            string fileName = $"Ficha_{generatePDF.Name}_{generatePDF.LastName}_{generatePDF.Dui}_KM.pdf";
+            string fileName = $"FichaDocente_{generatePDF.Name}_{generatePDF.LastName}_{generatePDF.Dui}_KM.pdf";
             return new ViewAsPdf("GeneratePDFfile", generatePDF)
             {
                 FileName = fileName
