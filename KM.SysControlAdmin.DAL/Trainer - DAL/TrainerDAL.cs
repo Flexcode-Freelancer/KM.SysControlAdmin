@@ -20,8 +20,8 @@ namespace KM.SysControlAdmin.DAL.Trainer___DAL
         private static async Task<bool> ExistTrainer(Trainer trainer, ContextDB contextDB)
         {
             bool result = false;
-            var trainers = await contextDB.Trainer.FirstOrDefaultAsync(m => m.Dui == trainer.Dui && m.Id != trainer.Id);
-            if (trainers != null && trainers.Id > 0 && trainers.Dui == trainer.Dui)
+            var trainers = await contextDB.Trainer.FirstOrDefaultAsync(m => m.Dui == trainer.Dui && m.Code == trainer.Code && m.Id != trainer.Id);
+            if (trainers != null && trainers.Id > 0 && trainers.Dui == trainer.Dui && trainers.Code == trainer.Code)
                 result = true;
             return result;
         }
@@ -60,6 +60,7 @@ namespace KM.SysControlAdmin.DAL.Trainer___DAL
                     bool trainerExists = await ExistTrainer(trainer, dbContext);
                     if (trainerExists == false)
                     {
+                        trainerDB.Code = trainer.Code;
                         trainerDB.Name = trainer.Name;
                         trainerDB.LastName = trainer.LastName;
                         trainerDB.Dui = trainer.Dui;
@@ -155,6 +156,9 @@ namespace KM.SysControlAdmin.DAL.Trainer___DAL
 
             if (!string.IsNullOrWhiteSpace(trainer.Dui))
                 query = query.Where(m => m.Dui.Contains(trainer.Dui));
+
+            if (!string.IsNullOrWhiteSpace(trainer.Code))
+                query = query.Where(m => m.Code.Contains(trainer.Code));
 
             // Ordenamos de Manera Desendente
             query = query.OrderByDescending(c => c.Id).AsQueryable();
