@@ -21,6 +21,8 @@ CREATE TABLE [User](
     );
 GO
 	INSERT INTO [Role] VALUES('Desarrollador');
+	INSERT INTO [Role] VALUES('Administrador');
+	INSERT INTO [Role] VALUES('Instructor/Docente');
 GO
     INSERT INTO [User] (IdRole, [Name], LastName, Email, [Password], [Status], DateCreated, DateModification) 
     VALUES (1, 'Flexcode', 'Freelancer', 'DesAdmin@kerigmamusic.com', 'c8aa131427a72781b156ac723ddb917f', 1, SYSDATETIME(), SYSDATETIME());
@@ -42,6 +44,4 @@ CREATE TABLE Trainer(
     DateModification DATETIME NOT NULL,
     ImageData VARBINARY(MAX) NOT NULL,
     );
-GO
-    INSERT INTO [Role] VALUES('Administrador', 'Instructor/Docente');
 GO
