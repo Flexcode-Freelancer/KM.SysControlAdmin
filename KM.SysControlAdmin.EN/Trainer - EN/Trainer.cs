@@ -21,6 +21,11 @@ namespace KM.SysControlAdmin.EN.Trainer___EN
         [Key]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "El Codigo Es Requerido")]
+        [StringLength(20, ErrorMessage = "Maximo 20 caracteres")]
+        [Display(Name = "Codigo")]
+        public string Code { get; set; } = string.Empty;
+
         [Required(ErrorMessage = "El Nombre Es Requerido")]
         [StringLength(50, ErrorMessage = "Maximo 50 caracteres")]
         [Display(Name = "Nombres")]
