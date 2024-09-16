@@ -82,6 +82,11 @@
                     <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="Code" class="control-label"></label>
+                    <input asp-for="Code" class="form-control" required placeholder="Ingresar" readonly id="Code" />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+                <div class="form-group">
                     <label for="imagen">Fotografia:</label>
                     <input type="file" id="imagen" class="form-control" name="imagen" onchange="mostrarImagen()" asp-for="ImageData" />
                 </div>
@@ -135,17 +140,18 @@
             $("#cbxStatus").val('@Model.Status');
 
             // Mostrar alerta de error si ViewBag.Error tiene algún mensaje
-            @if (!string.IsNullOrEmpty(ViewBag.Error))
-            {
-                @:showErrorAlert('@ViewBag.Error');
-            }
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            @:showErrorAlert('@ViewBag.Error');
+        }
 
-            // Asignar eventos a los elementos del formulario
-            document.getElementById('inputDui').addEventListener('input', function (event) {
-                var inputValue = event.target.value;
-                var formattedValue = formatDui(inputValue);
-                event.target.value = formattedValue;
-            });
+                // Asignar eventos a los elementos del formulario
+                document.getElementById('inputDui').addEventListener('input', function (event) {
+                    var inputValue = event.target.value;
+                    var formattedValue = formatDui(inputValue);
+                    event.target.value = formattedValue;
+                    generateCode(); // Actualizar el código al modificar el DUI
+                });
 
             const birthDateInput = document.querySelector('input[name="DateOfBirth"]');
             birthDateInput.addEventListener('change', calculateAge);
@@ -155,17 +161,16 @@
                 formatPhoneNumber(e.target);
             });
 
-            calculateAge(); // Llamada inicial para calcular la edad
-        });
+            const firstNameInput = document.querySelector('input[name="Name"]');
+            const lastNameInput = document.querySelector('input[name="LastName"]');
 
-        // Función para mostrar alerta de error
-        function showErrorAlert(message) {
-            Swal.fire({
-                title: 'Error',
-                text: message,
-                icon: 'error'
-            });
-        }
+            // Eventos para generar el código cuando se cambian los nombres o apellidos
+            firstNameInput.addEventListener('input', generateCode);
+            lastNameInput.addEventListener('input', generateCode);
+
+            calculateAge(); // Llamada inicial para calcular la edad
+            generateCode(); // Generar el código al cargar la página
+        });
 
         // Función para formatear el DUI con guiones
         function formatDui(inputValue) {
@@ -226,7 +231,44 @@
             reader.readAsDataURL(archivo);
         }
 
-        // Función para confirmar la creación del registro
+        // Función para generar automáticamente el código tomando la primera letra de cada palabra en nombres y apellidos
+        function generateCode() {
+            const firstName = document.querySelector('input[name="Name"]').value.trim();
+            const lastName = document.querySelector('input[name="LastName"]').value.trim();
+            const dui = document.querySelector('#inputDui').value.trim();
+            const codeField = document.querySelector('#Code');
+
+            let code = '';
+
+            // Tomar la primera letra de cada palabra de los nombres y apellidos
+            if (firstName) {
+                const firstNameParts = firstName.split(" ");
+                firstNameParts.forEach(name => {
+                    code += name.charAt(0).toUpperCase(); // Tomar la primera letra de cada nombre
+                });
+            }
+
+            if (lastName) {
+                const lastNameParts = lastName.split(" ");
+                lastNameParts.forEach(last => {
+                    code += last.charAt(0).toUpperCase(); // Tomar la primera letra de cada apellido
+                });
+            }
+
+            // Tomar el último dígito del campo DUI
+            if (dui.length >= 9) {
+                code += dui.charAt(dui.length - 1);
+            }
+
+            // Añadir los últimos dos dígitos del año actual
+            const currentYear = new Date().getFullYear();
+            code += currentYear.toString().slice(-2);
+
+            // Asignar el valor generado al campo Code
+            codeField.value = code;
+        }
+
+        // Función para confirmar la modificación del registro
         function CreateRecord(e) {
             e.preventDefault();
             const form = document.getElementById('Form');
