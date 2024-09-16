@@ -81,6 +81,11 @@
                     <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="Code" class="control-label"></label>
+                    <input asp-for="Code" class="form-control" required placeholder="Ingresar" readonly id="Code"/>
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+                <div class="form-group">
                     <label for="imagen">Fotografia:</label>
                     <input type="file" id="imagen" class="form-control" name="imagen" onchange="mostrarImagen()" asp-for="ImageData" />
                 </div>
@@ -134,141 +139,127 @@
     }
 
     <script>
-        // Mostrar alerta de error
-        function showErrorAlert(message) {
-            Swal.fire({
-                title: 'Error',
-                text: message,
-                icon: 'error'
-            });
-        }
-
-        // Mostrar alerta de error de ViewBag.Error si es necesario
-        @if (!string.IsNullOrEmpty(ViewBag.Error))
-        {
-            @:showErrorAlert('@ViewBag.Error');
-        }
-
-        // Eventos automatizados al cargar el documento
-        document.addEventListener("DOMContentLoaded", function () {
-            // Función para formatear el DUI
-            function formatDui(inputValue) {
-                inputValue = inputValue.replace(/\D/g, ''); // Remover todos los caracteres que no sean dígitos
-                var formattedValue = '';
-                for (var i = 0; i < inputValue.length; i++) {
-                    if (i == 8) {
-                        formattedValue += '-' + inputValue.charAt(i);
-                    } else {
-                        formattedValue += inputValue.charAt(i);
-                    }
+        // Función para formatear el DUI
+        function formatDui(inputValue) {
+            inputValue = inputValue.replace(/\D/g, ''); // Remover todos los caracteres que no sean dígitos
+            let formattedValue = '';
+            for (let i = 0; i < inputValue.length; i++) {
+                if (i == 8) {
+                    formattedValue += '-' + inputValue.charAt(i);
+                } else {
+                    formattedValue += inputValue.charAt(i);
                 }
-                formattedValue = formattedValue.substring(0, 10); // Limitar la longitud total a 10 caracteres, incluyendo el guion
-                return formattedValue;
             }
+            return formattedValue.substring(0, 10); // Limitar a 10 caracteres
+        }
 
-            // Calcular la edad en base a la fecha de nacimiento
+        // Función para calcular la edad en base a la fecha de nacimiento
+        function calculateAge() {
             const birthDateInput = document.querySelector('input[name="DateOfBirth"]');
             const ageInput = document.querySelector('input[name="Age"]');
+            const birthDateValue = birthDateInput.value.trim();
 
-            function calculateAge() {
-                const birthDateValue = birthDateInput.value.trim();
-                if (birthDateValue !== "") {
-                    const birthDate = new Date(birthDateValue);
-                    const currentDate = new Date();
-                    let age = currentDate.getFullYear() - birthDate.getFullYear(); // Calcular la edad restando el año de nacimiento del año actual
+            if (birthDateValue !== "") {
+                const birthDate = new Date(birthDateValue);
+                const currentDate = new Date();
+                let age = currentDate.getFullYear() - birthDate.getFullYear();
 
-                    // Ajustar la edad si la fecha de nacimiento aún no ha ocurrido este año
-                    if (birthDate.getMonth() > currentDate.getMonth() ||
-                        (birthDate.getMonth() === currentDate.getMonth() && birthDate.getDate() > currentDate.getDate())) {
-                        age--;
-                    }
-                    ageInput.value = age; // Actualizar el campo de edad
-                } else {
-                    ageInput.value = ""; // Desactivar el campo de edad si no se proporciona ninguna fecha de nacimiento
+                if (birthDate.getMonth() > currentDate.getMonth() ||
+                    (birthDate.getMonth() === currentDate.getMonth() && birthDate.getDate() > currentDate.getDate())) {
+                    age--;
                 }
+                ageInput.value = age;
+            } else {
+                ageInput.value = ""; // Desactivar el campo de edad
+            }
+        }
+
+        // Función para formatear el número de teléfono
+        function formatPhoneNumber(input) {
+            let phoneNumber = input.value.replace(/\D/g, ''); // Eliminar caracteres no numéricos
+            if (phoneNumber.length > 4) {
+                phoneNumber = phoneNumber.slice(0, 4) + '-' + phoneNumber.slice(4, 8); // Formatear con guion
+            }
+            input.value = phoneNumber;
+        }
+
+        // Función para generar automáticamente el código tomando la primera letra de cada palabra en nombres y apellidos
+        function generateCode() {
+            const firstName = document.querySelector('input[name="Name"]').value.trim();
+            const lastName = document.querySelector('input[name="LastName"]').value.trim();
+            const dui = document.querySelector('#inputDui').value.trim();
+            const codeField = document.querySelector('#Code');
+
+            let code = '';
+
+            // Tomar la primera letra de cada palabra de los nombres y apellidos
+            if (firstName) {
+                const firstNameParts = firstName.split(" ");
+                firstNameParts.forEach(name => {
+                    code += name.charAt(0).toUpperCase(); // Tomar la primera letra de cada nombre
+                });
             }
 
-            // Función para formatear el número de teléfono
-            const inputPhone = document.getElementById('inputPhone');
-
-            function formatPhoneNumber(input) {
-                let phoneNumber = input.value.replace(/\D/g, ''); // Eliminar cualquier carácter que no sea número
-                if (phoneNumber.length > 4) {
-                    phoneNumber = phoneNumber.slice(0, 4) + '-' + phoneNumber.slice(4, 8); // Formatear el número con un guion después de los primeros 4 dígitos
-                }
-                input.value = phoneNumber;
+            if (lastName) {
+                const lastNameParts = lastName.split(" ");
+                lastNameParts.forEach(last => {
+                    code += last.charAt(0).toUpperCase(); // Tomar la primera letra de cada apellido
+                });
             }
 
-            // Asignar eventos
-            document.getElementById('inputDui').addEventListener('input', function (event) {
-                var inputValue = event.target.value;
-                var formattedValue = formatDui(inputValue);
-                event.target.value = formattedValue;
-                actualizarCodigoDeBarras(); // Asumiendo que existe una función para actualizar el código de barras
-            });
+            // Tomar el último dígito del campo DUI
+            if (dui.length >= 9) {
+                code += dui.charAt(dui.length - 1);
+            }
 
-            birthDateInput.addEventListener('change', calculateAge); // Agregar detector de eventos para el cambio en la fecha de nacimiento
-            inputPhone.addEventListener('input', function (e) {
-                formatPhoneNumber(e.target);
-            });
+            // Añadir los últimos dos dígitos del año actual
+            const currentYear = new Date().getFullYear();
+            code += currentYear.toString().slice(-2);
 
-            calculateAge(); // Calcular la edad cuando se carga la página
-        });
+            // Asignar el valor generado al campo Code
+            codeField.value = code;
+        }
 
-        // Método para mostrar vista previa de la imagen seleccionada
+        // Función para mostrar vista previa de la imagen seleccionada
         function mostrarImagen() {
-            var archivo = document.getElementById('imagen').files[0];
-            var reader = new FileReader();
+            const archivo = document.getElementById('imagen').files[0];
+            const reader = new FileReader();
 
             reader.onload = function (e) {
-                var imagenPreview = document.getElementById('imagenPreview');
+                const imagenPreview = document.getElementById('imagenPreview');
                 imagenPreview.src = e.target.result;
                 imagenPreview.style.display = 'block';
             };
             reader.readAsDataURL(archivo);
         }
 
-        // Alerta con SweetAlert2 para crear un registro
-        function CreateRecord(e) {
-            e.preventDefault();
-            const form = document.getElementById('Form');
-            const inputs = document.querySelectorAll('.form-input');
-            const nameFields = ['Name', 'LastName'];
-            const regex = /^[A-ZÑa-zñáéíóúÁÉÍÓÚ. ]+$/;
+        // Automatización que asegura que todos los campos y eventos se manejen correctamente
+        document.addEventListener("DOMContentLoaded", function () {
+            const birthDateInput = document.querySelector('input[name="DateOfBirth"]');
+            const inputPhone = document.getElementById('inputPhone');
+            const duiInput = document.getElementById('inputDui');
+            const firstNameInput = document.querySelector('input[name="Name"]');
+            const lastNameInput = document.querySelector('input[name="LastName"]');
+            const codeField = document.querySelector('#Code');
 
-            let isValid = true;
-
-            // Validar que los campos nameFields solo contengan letras, punto y espacios
-            nameFields.forEach((field) => {
-                const input = document.querySelector(`#${field}`);
-                if (!regex.test(input.value)) {
-                    isValid = false;
-                }
+            // Asignar eventos a los campos relevantes
+            birthDateInput.addEventListener('change', calculateAge); // Calcular la edad cuando cambia la fecha de nacimiento
+            inputPhone.addEventListener('input', function (e) {
+                formatPhoneNumber(e.target); // Formatear el teléfono
+            });
+            duiInput.addEventListener('input', function (event) {
+                const inputValue = event.target.value;
+                event.target.value = formatDui(inputValue); // Formatear DUI
+                generateCode(); // Generar el código al cambiar el DUI
             });
 
-            // Si la validación falla, muestra una alerta advirtiendo al usuario
-            if (!isValid) {
-                Swal.fire({
-                    title: '!Advertencia!',
-                    text: 'Ciertos Campos Solo Deben Tener Letras, Revisa Tu Ficha',
-                    icon: 'warning',
-                    confirmButtonText: 'Aceptar'
-                });
-                return;
-            }
+            // Eventos para actualizar el código cuando cambian los nombres o apellidos
+            firstNameInput.addEventListener('input', generateCode);
+            lastNameInput.addEventListener('input', generateCode);
 
-            // Si todos los campos son válidos, muestra la alerta de confirmación
-            Swal.fire({
-                title: '¿Guardar Nuevo Registro?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, Guardar Registro',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
-        }
+            // Inicializar valores al cargar la página
+            calculateAge(); // Calcular la edad al cargar la página
+            generateCode(); // Generar el código al cargar la página
+        });
     </script>
 }
