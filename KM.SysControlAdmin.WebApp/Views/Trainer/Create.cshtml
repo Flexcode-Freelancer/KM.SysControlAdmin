@@ -189,6 +189,7 @@
             const lastName = document.querySelector('input[name="LastName"]').value.trim();
             const dui = document.querySelector('#inputDui').value.trim();
             const codeField = document.querySelector('#Code');
+            const emailField = document.querySelector('input[name="Email"]');
 
             let code = '';
 
@@ -218,6 +219,9 @@
 
             // Asignar el valor generado al campo Code
             codeField.value = code;
+
+            // Generar el email con el formato "código@kerigmamusic.com"
+            emailField.value = code.toLowerCase() + "@@kerigmamusic.com";
         }
 
         // Función para mostrar vista previa de la imagen seleccionada
@@ -241,6 +245,7 @@
             const firstNameInput = document.querySelector('input[name="Name"]');
             const lastNameInput = document.querySelector('input[name="LastName"]');
             const codeField = document.querySelector('#Code');
+            const form = document.getElementById('Form');
 
             // Asignar eventos a los campos relevantes
             birthDateInput.addEventListener('change', calculateAge); // Calcular la edad cuando cambia la fecha de nacimiento
@@ -253,13 +258,31 @@
                 generateCode(); // Generar el código al cambiar el DUI
             });
 
-            // Eventos para actualizar el código cuando cambian los nombres o apellidos
+            // Eventos para actualizar el código y el email cuando cambian los nombres o apellidos
             firstNameInput.addEventListener('input', generateCode);
             lastNameInput.addEventListener('input', generateCode);
 
             // Inicializar valores al cargar la página
             calculateAge(); // Calcular la edad al cargar la página
-            generateCode(); // Generar el código al cargar la página
+            generateCode(); // Generar el código y el email al cargar la página
+
+            // Función para mostrar alerta al intentar guardar el formulario
+            form.addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevenir el envío automático del formulario
+
+                Swal.fire({
+                    title: '¿Guardar Nuevo Registro?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si, Guardar Registro',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Enviar el formulario si se confirma
+                    }
+                    // Si se cancela, no hacer nada (permanecer en la misma vista)
+                });
+            });
         });
     </script>
 }
