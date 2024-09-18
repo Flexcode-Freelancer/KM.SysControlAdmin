@@ -70,7 +70,35 @@
                     }
                 </td>
             </tr>
+            <tr>
+                <td style="position:relative; align-content:unset;">
+                    <canvas id="barcodeCanvas" style="display:none;"></canvas> <!-- Canvas oculto para renderizar el código -->
+                    <img id="barcodeImage" alt="Código de Barras" /> <!-- Imagen que se mostrará en el PDF -->
+                </td>
+            </tr>
         </table>
     </div>
+
+    <!-- Incluir el script de JsBarcode desde un CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+    <script>
+        // Asegurarnos de que el código de barras se genera correctamente
+        document.addEventListener("DOMContentLoaded", function () {
+            var canvas = document.getElementById('barcodeCanvas');
+            var barcodeImage = document.getElementById('barcodeImage');
+
+            // Generar el código de barras en el canvas
+            JsBarcode(canvas, "@Model.Code", {
+                format: "CODE128",
+                displayValue: true,
+                fontSize: 25,
+                width: 4, // Ancho de las barras
+                height: 115 // Altura del código de barras
+            });
+
+            // Convertir el canvas a imagen en base64
+            barcodeImage.src = canvas.toDataURL('image/png');
+        });
+    </script>
 </body>
 </html>
