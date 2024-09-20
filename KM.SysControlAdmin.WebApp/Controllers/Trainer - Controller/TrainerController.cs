@@ -71,7 +71,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Trainer___Controller
                 // Crear un nuevo objeto de tipo User y mapear las propiedades de Trainer con Server
                 var user = new User
                 {
-                    IdRole = trainer.IdRole,
+                    IdRole = 3,
                     Name = trainer.Name,
                     LastName = trainer.LastName,
                     Email = trainer.Email,
