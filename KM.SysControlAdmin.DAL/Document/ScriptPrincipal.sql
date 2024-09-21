@@ -46,3 +46,9 @@ CREATE TABLE Trainer(
     ImageData VARBINARY(MAX) NOT NULL,
     );
 GO
+  CREATE TABLE Schedule(
+  Id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  StartTime TIME NOT NULL,
+  EndTime TIME NOT NULL
+  );
+GO
