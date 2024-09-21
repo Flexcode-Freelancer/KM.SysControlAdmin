@@ -1,0 +1,86 @@
+﻿@model KM.SysControlAdmin.EN.Schedule___EN.Schedule
+
+@{
+    ViewData["Title"] = "Modificar Horario";
+}
+
+@section Styles {
+    <link href="/css/Schedule/DesignCreateAndEdit.css" rel="stylesheet" />
+}
+
+<h1>Modificar Horario Existente</h1>
+<span>@ViewBag.Error</span>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form id="Form" asp-action="Edit" onsubmit="CreateRecord(event)">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="StartTime" class="control-label"></label>
+                    <input asp-for="StartTime" class="form-control" required />
+                    <span asp-validation-for="StartTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndTime" class="control-label"></label>
+                    <input asp-for="EndTime" class="form-control" required />
+                    <span asp-validation-for="EndTime" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Modificar Horario" class="btn btn-primary" /> |
+                <a class="btn btn-outline-secondary" asp-action="Index">Regresar a La Lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function showErrorAlert(message) {
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error'
+            });
+        }
+
+        // Mostrar alerta de ViewBag.Error si es necesario
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            @:showErrorAlert('@ViewBag.Error');
+        }
+
+        // Alerta con SweetAlert2
+        function CreateRecord(e) {
+            e.preventDefault();
+            const form = document.getElementById('Form');
+            const startTime = document.getElementById('StartTime').value;
+            const endTime = document.getElementById('EndTime').value;
+
+            // Validar que los campos no estén vacíos (00:00) y que no estén vacíos
+            if (!startTime || startTime === "00:00" || !endTime || endTime === "00:00") {
+                showErrorAlert("Por favor, ingrese una hora válida para ambos campos.");
+                return;
+            }
+
+            // Si todos los campos son válidos, muestra la alerta de confirmación
+            Swal.fire({
+                title: '¿Modificar Hoario Existente?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Modificar Horario',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}
