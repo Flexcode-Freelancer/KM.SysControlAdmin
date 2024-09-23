@@ -47,7 +47,6 @@ namespace KM.SysControlAdmin.EN.Course___EN
         [Display(Name = "Fecha de Finalización")]
         public DateTime EndTime { get; set; }
 
-        [MaxLength(2, ErrorMessage = "Máximo 2 caracteres")]
         [Display(Name = "Máximo de Estudiantes")]
         [RegularExpression("^[0-9]+$", ErrorMessage = "El Máximo de Estudiantes debe contener solo números")]
         public int MaxStudent { get; set; }
