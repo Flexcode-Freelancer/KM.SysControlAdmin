@@ -1,13 +1,12 @@
 ﻿#region REFERENCIAS
-using KM.SysControlAdmin.EN.Course___EN;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 // Referencias Necesarias Para El Correcto Funcionamiento
-
+using KM.SysControlAdmin.EN.Course___EN;
+using Microsoft.EntityFrameworkCore;
 
 
 #endregion
