@@ -1,14 +1,14 @@
 ﻿#region REFERENCIAS
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+// Referencias Necesarias Para El Correcto Funcionamiento
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using KM.SysControlAdmin.EN.Schedule___EN;
 using KM.SysControlAdmin.EN.Trainer___EN;
-// Referencias Necesarias Para El Correcto Funcionamiento
 
 
 #endregion
