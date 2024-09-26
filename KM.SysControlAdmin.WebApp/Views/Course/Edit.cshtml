@@ -1,0 +1,230 @@
+﻿@using KM.SysControlAdmin.EN.Trainer___EN
+@using KM.SysControlAdmin.EN.Schedule___EN
+@model KM.SysControlAdmin.EN.Course___EN.Course
+
+@{
+    ViewData["Title"] = "Modificar Curso";
+    List<Trainer> trainers = ViewBag.Trainers as List<Trainer>;
+    List<Schedule> schedules = ViewBag.Schedule as List<Schedule>;
+}
+
+@section Styles{
+    <link href="/css/Course/DesignCreateAndEdit.css" rel="stylesheet" />
+}
+
+<h1>Modificar Curso Existente</h1>
+<span>@ViewBag.Error</span>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form id="Form" asp-action="Edit" onsubmit="CreateRecord(event)">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" id="inputName" placeholder="Ingresar" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MaxStudent" class="control-label"></label>
+                    <input asp-for="MaxStudent" type="number" class="form-control" id="inputMaxStudent" placeholder="Ingresar" required />
+                    <span asp-validation-for="MaxStudent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input id="priceInput" asp-for="Price" class="form-control" placeholder="00.00" required />
+                    </div>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="StartTime" class="control-label">Fecha de Inicio</label>
+                    <input asp-for="StartTime" type="date" class="form-control" id="inputStartTime" />
+                    <span asp-validation-for="StartTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndTime" class="control-label">Fecha de Finalización</label>
+                    <input asp-for="EndTime" type="date" class="form-control" id="inputEndTime" />
+                    <span asp-validation-for="EndTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Code" class="control-label"></label>
+                    <input asp-for="Code" class="form-control" id="inputCode" placeholder="Ingresar" required readonly />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="IdSchedule" class="control-label"></label>
+                    <select class="form-select" id="IdSchedule" name="IdSchedule">
+                        <option selected value="">Seleccionar</option>
+                        @foreach (var schedule in schedules!)
+                        {
+                            <option value="@schedule.Id">@schedule.StartTime - @schedule.EndTime</option>
+                        }
+                    </select>
+                    <span asp-validation-for="IdSchedule" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdTrainer" class="control-label"></label>
+                    <select class="form-select" name="IdTrainer" id="IdTrainer">
+                        <option selected value="">Seleccionar</option>
+                        @foreach (var item in trainers!)
+                        {
+                            <option value="@item.Id">@item.Name @item.LastName - @item.Code</option>
+                        }
+                    </select>
+                    <span asp-validation-for="IdTrainer" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select class="form-select" name="Status" id="cbxStatus">
+                        <option value="0">Seleccionar</option>
+                        <option selected value="1">Activo</option>
+                        <option value="2">Inactivo</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="DateCreated" class="control-label"></label>
+                    <input asp-for="DateCreated" type="date" class="form-control" readonly />
+                    <span asp-validation-for="DateCreated" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateModification" class="control-label"></label>
+                    <input asp-for="DateModification" type="date" class="form-control" readonly />
+                    <span asp-validation-for="DateModification" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Modificar Curso" class="btn btn-primary" /> |
+                <a class="btn btn-outline-secondary" asp-action="Index">Regresar a La Lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Cargar select con jQuery
+            $("#IdSchedule").val('@Model.IdSchedule');
+            $("#IdTrainer").val('@Model.IdTrainer');
+            $("#cbxStatus").val('@Model.Status');
+
+            // Creacion y asignacio nde constantes
+            const inputName = document.getElementById('inputName');
+            const inputMaxStudent = document.getElementById('inputMaxStudent');
+            const inputCode = document.getElementById('inputCode');
+            const priceInput = document.getElementById('priceInput');
+
+            function updateCode() {
+                const nameValue = inputName.value.trim();
+                const maxStudentValue = inputMaxStudent.value.trim();
+
+                if (nameValue && maxStudentValue) {
+                    const nameParts = nameValue.split(' ');
+                    const firstWord = nameParts[0];
+                    const secondWord = nameParts.length > 1 ? nameParts[1] : '';
+
+                    const firstThreeLetters = firstWord.slice(0, 3).toUpperCase();
+                    const initialSecondWord = secondWord.charAt(0).toUpperCase();
+                    const lastLetter = nameValue.charAt(nameValue.length - 1).toUpperCase();
+                    const maxStudents = maxStudentValue.padStart(2, '0');
+                    const currentYear = new Date().getFullYear();
+
+                    inputCode.value = `KM${firstThreeLetters}${initialSecondWord}${lastLetter}${maxStudents}${currentYear}`;
+                } else {
+                    inputCode.value = '';
+                }
+            }
+
+            function formatPrice(inputValue) {
+                inputValue = inputValue.replace(/\D/g, ''); // Remover todo excepto números
+                var integerPart = inputValue.slice(0, -2); // Obtener parte entera
+                var decimalPart = inputValue.slice(-2); // Obtener parte decimal (últimos 2 dígitos)
+                var formattedIntegerPart = addThousandSeparator(integerPart); // Agregar separador de miles
+                var formattedValue = formattedIntegerPart + '.' + decimalPart; // Unir parte entera y parte decimal con punto
+                return formattedValue;
+            }
+
+            function addThousandSeparator(integerPart) {
+                var formattedIntegerPart = '';
+                for (var i = integerPart.length - 1, j = 1; i >= 0; i--, j++) {
+                    formattedIntegerPart = integerPart[i] + formattedIntegerPart;
+                    if (j % 3 === 0 && i !== 0) {
+                        formattedIntegerPart = ',' + formattedIntegerPart;
+                    }
+                }
+                return formattedIntegerPart;
+            }
+
+            inputName.addEventListener('input', updateCode);
+            inputMaxStudent.addEventListener('input', updateCode);
+
+            priceInput.addEventListener('input', function (event) {
+                var inputValue = event.target.value;
+                var formattedValue = formatPrice(inputValue);
+                event.target.value = formattedValue;
+            });
+
+            updateCode(); // Llamada inicial para actualizar el código
+
+            // Mostrar alerta de ViewBag.Error si es necesario
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            @:showErrorAlert('@ViewBag.Error');
+        }
+                });
+
+        function showErrorAlert(message) {
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error'
+            });
+        }
+
+        function CreateRecord(e) {
+            e.preventDefault();
+            const form = document.getElementById('Form');
+            const inputName = document.getElementById('inputName');
+            const regex = /^[A-ZÑa-zñáéíóúÁÉÍÓÚ.0123456789 ]+$/;
+
+            if (!regex.test(inputName.value)) {
+                Swal.fire({
+                    title: '!Advertencia!',
+                    text: 'El campo Nombre solo debe contener letras, puntos y espacios',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: 'Cancelar'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: '¿Modificar Este Curso?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Modificar Curso',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}
