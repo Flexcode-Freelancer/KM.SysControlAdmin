@@ -9,6 +9,7 @@ using KM.SysControlAdmin.EN.Trainer___EN;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Rotativa.AspNetCore;
 
 
 #endregion
@@ -213,6 +214,20 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Course___Controller
                 courseDB.Schedule = await scheduleBL.GetByIdAsync(new Schedule { Id = courseDB.IdSchedule });
                 return View(courseDB);
             }
+        }
+        #endregion
+
+        #region METODO PARA REPORTE
+        // Metodo Para Generar Ficha o Reporte En PDF
+        [Authorize(Roles = "Desarrollador")]
+        public async Task<ActionResult> GeneratePDFfile(int id)
+        {
+            var generatePDF = await courseBL.GetByIdAsync(new Course { Id = id });
+            string fileName = $"FichaCurso_{generatePDF.Name}_KM.pdf";
+            return new ViewAsPdf("GeneratePDFfile", generatePDF)
+            {
+                FileName = fileName
+            };
         }
         #endregion
     }
