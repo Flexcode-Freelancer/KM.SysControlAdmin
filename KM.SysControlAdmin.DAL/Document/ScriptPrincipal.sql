@@ -67,3 +67,19 @@ GO
   IdTrainer INT NOT NULL FOREIGN KEY REFERENCES Trainer(Id)
   );
 GO
+  CREATE TABLE Student (
+  Id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  StudentCode VARCHAR(6) NOT NULL,
+  ProjectCode VARCHAR(6) NULL,
+  ParticipantCode VARCHAR(11) NULL,
+  [Name] VARCHAR(50) NOT NULL,
+  LastName VARCHAR(50) NOT NULL,
+  DateOfBirth DATE NOT NULL,
+  Age VARCHAR(3) NOT NULL,
+  Church VARCHAR(60) NULL,
+  [Status] TINYINT NOT NULL,
+  ImageData VARBINARY(MAX) NOT NULL,
+  DateCreated DATETIME NOT NULL,
+  DateModification DATETIME NOT NULL,
+  );
+GO
