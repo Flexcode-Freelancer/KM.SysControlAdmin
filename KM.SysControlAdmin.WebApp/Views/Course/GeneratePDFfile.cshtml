@@ -1,0 +1,89 @@
+@model KM.SysControlAdmin.EN.Course___EN.Course
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Curso PDF</title>
+    <link href="/css/Course/DesignGeneratePDF.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <table>
+            <tr>
+                <td class="logo">
+                    <img src="/assets/img/logos/Logo Kerigma Music.png" alt="Logo Oficial">
+                </td>
+                <td class="text">
+                    <h1>Ficha Oficial - Kerigma Music</h1>
+                    <h2>Credencial Del Curso</h2>
+                    <h3>Teléfono: 0000-0000</h3>
+                    <h3>Correo: kerigmamusic@gmail.com</h3>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div class="container">
+        <table>
+            <tr>
+                <td class="info">
+                    <h1>Información General</h1>
+                    <div class="line-group">
+                        <p><strong>@Html.DisplayNameFor(model => model.Code):</strong> @Html.DisplayFor(model => model.Code)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.Name):</strong> @Html.DisplayFor(model => model.Name)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.Price):</strong> @Html.DisplayFor(model => model.Price)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.StartTime):</strong> @Html.DisplayFor(model => model.FormattedStartTime)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.EndTime):</strong> @Html.DisplayFor(model => model.FormattedEndTime)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.MaxStudent):</strong> @Html.DisplayFor(model => model.MaxStudent)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.IdSchedule):</strong> @Html.DisplayFor(model => model.Schedule!.StartTime) - @Html.DisplayFor(model => model.Schedule!.EndTime)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.IdTrainer):</strong> @Html.DisplayFor(model => model.Trainer!.Name) @Html.DisplayFor(model => model.Trainer!.LastName) - @Html.DisplayFor(model => model.Trainer!.Code)</p>
+                        @if (Model.Status == 1)
+                        {
+                            <p><strong>@Html.DisplayNameFor(model => model.Status):</strong> Activo</p>
+                        }
+                        else if (Model.Status == 2)
+                        {
+                            <p><strong>@Html.DisplayNameFor(model => model.Status):</strong> Inactivo</p>
+                        }
+                        <p><strong>@Html.DisplayNameFor(model => model.DateCreated):</strong> @Html.DisplayFor(model => model.DateCreated)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.DateModification):</strong> @Html.DisplayFor(model => model.DateModification)</p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="position:relative; align-content:unset;">
+                    <canvas id="barcodeCanvas" style="display:none;"></canvas> <!-- Canvas oculto para renderizar el código -->
+                    <img id="barcodeImage" alt="Código de Barras" /> <!-- Imagen que se mostrará en el PDF -->
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script src="~/plugins/JsBarcode/js/min.js"></script>
+    <script>
+        // Asegurarnos de que el código de barras se genera correctamente
+        document.addEventListener("DOMContentLoaded", function () {
+            var canvas = document.getElementById('barcodeCanvas');
+            var barcodeImage = document.getElementById('barcodeImage');
+
+            // Generar el código de barras en el canvas
+            JsBarcode(canvas, "@Model.Code", {
+                format: "CODE128",
+                displayValue: true,
+                fontSize: 25,
+                width: 3, // Ancho de las barras
+                height: 115 // Altura del código de barras
+            });
+
+            // Convertir el canvas a imagen en base64
+            barcodeImage.src = canvas.toDataURL('image/png');
+        });
+    </script>
+</body>
+</html>
