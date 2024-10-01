@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 // Referencias Necesarias Para El Correcto Funcionamiento
 using System.ComponentModel.DataAnnotations;
+using KM.SysControlAdmin.EN.User___EN;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 #endregion
@@ -73,6 +75,38 @@ namespace KM.SysControlAdmin.EN.Student___EN
 
         [Display(Name = "Fecha de Modificacion")]
         public DateTime DateModification { get; set; }
+        #endregion
+
+        #region Atributos No Mapeables Externos
+        [NotMapped]
+        [Required(ErrorMessage = "El Correo Electronico es requerido")]
+        [MaxLength(50, ErrorMessage = "Máximo 30 caracteres")]
+        [Display(Name = "Correo Electronico")]
+        public string Email { get; set; } = string.Empty;
+
+        [NotMapped]
+        [Required(ErrorMessage = "La contraseña es requerida")]
+        [DataType(DataType.Password)]
+        [StringLength(32, ErrorMessage = "La contraseña debe estar entre 6 y 32 caracteres", MinimumLength = 6)]
+        [Display(Name = "Contraseña")]
+        public string Password { get; set; } = string.Empty;
+
+        [NotMapped]
+        [ForeignKey("Role")]
+        [Required(ErrorMessage = "El rol es requerido")]
+        [Display(Name = "Rol")]
+        public int IdRole { get; set; }
+
+        [NotMapped]
+        [Required(ErrorMessage = "La confirmación de la contraseña es requerida")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
+        [StringLength(32, ErrorMessage = "La contraseña debe tener entre 6 y 32 caracteres", MinimumLength = 6)]
+        [Display(Name = "Confirmar Contraseña")]
+        public string ConfirmPassword_Aux { get; set; } = string.Empty; //propiedad auxiliar
+
+        [NotMapped]
+        public User? User { get; set; } //propiedad de navegación
         #endregion
     }
 }
