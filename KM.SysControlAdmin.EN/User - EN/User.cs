@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using KM.SysControlAdmin.EN.Role___EN;
 using KM.SysControlAdmin.EN.Trainer___EN;
+using KM.SysControlAdmin.EN.Student___EN;
 
 #endregion
 
@@ -72,8 +73,12 @@ namespace KM.SysControlAdmin.EN.User___EN
         public string ConfirmPassword_Aux { get; set; } = string.Empty; //propiedad auxiliar
 
         public Role? Role { get; set; } //propiedad de navegación
+
         [NotMapped]
         public List<Trainer> Trainer { get; set; } = new List<Trainer>(); // Propiedad de navegacion
+
+        [NotMapped]
+        public List<Student> Student { get; set; } = new List<Student>(); // Propiedad de navegacion
     }
 
     public enum User_Status
