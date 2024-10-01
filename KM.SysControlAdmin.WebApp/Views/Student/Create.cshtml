@@ -1,0 +1,281 @@
+﻿@model KM.SysControlAdmin.EN.Student___EN.Student
+
+@{
+    ViewData["Title"] = "Agregar Estudiante";
+}
+
+@section Styles {
+    <link href="/css/Student/DesignCreateAndEdit.css" rel="stylesheet" />
+}
+
+<h1>Agregar Nuevo Estudiante</h1>
+<span>@ViewBag.Error</span>
+<br />
+<!-- Checkbox para "No soy del Proyecto" -->
+<div class="form-group form-check">
+    <input type="checkbox" id="notFromProject" class="form-check-input" />
+    <h5 for="notFromProject" class="form-check-label">Soy Parte Del Proyecto</h5>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form id="Form" asp-action="Create" onsubmit="CreateRecord(event)" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h2>Información Personal</h2>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="StudentCode" class="control-label"></label>
+                    <input asp-for="StudentCode" class="form-control" placeholder="Ingresar" readonly />
+                    <span asp-validation-for="StudentCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProjectCode" class="control-label"></label>
+                    <input asp-for="ProjectCode" id="CodeProyect" class="form-control" placeholder="Ingresar" disabled />
+                    <span asp-validation-for="ProjectCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ParticipantCode" class="control-label"></label>
+                    <input asp-for="ParticipantCode" id="ParticipantCode" class="form-control" placeholder="Ingresar" disabled />
+                    <span asp-validation-for="ParticipantCode" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" placeholder="Ingresar" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" placeholder="Ingresar" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfBirth" class="control-label"></label>
+                    <input asp-for="DateOfBirth" class="form-control" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Age" class="control-label"></label>
+                    <input asp-for="Age" class="form-control" placeholder="Ingresar" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="Church" class="control-label"></label>
+                    <input asp-for="Church" id="Church" class="form-control" placeholder="Ingresar" />
+                    <span asp-validation-for="Church" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select name="Status" class="form-select" required>
+                        <option value="">Seleccionar</option>
+                        <option value="1" selected>Activo</option>
+                        <option value="2">Inactivo</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="imagen">Seleccionar Fotografía:</label>
+                    <input type="file" id="imagen" class="form-control" name="imagen" onchange="mostrarImagen()" asp-for="ImageData" />
+                </div>
+            </div>
+            <br />
+            <h2>Información Adicional</h2>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="IdRole" class="control-label"></label>
+                    <select class="form-select">
+                        <option selected value="">Estudiante</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" required placeholder="Ingresar" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" required placeholder="XXXXXXXXXX" />
+                </div>
+            </div>
+            <br />
+            <div>
+                <img id="imagenPreview" src="#" alt="Vista previa de la imagen" style="max-width: 100%; max-height: 200px; display: none; border: 1px solid #d3d3d3;" />
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Agregar Estudiante" class="btn btn-primary" /> |
+                <a class="btn btn-outline-secondary" asp-action="Index">Regresar a La Lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Mostrar alerta de error
+        function showErrorAlert(message) {
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error'
+            });
+        }
+
+        // Mostrar alerta de error de ViewBag.Error si es necesario
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            @:showErrorAlert('@ViewBag.Error');
+        }
+
+        // Eventos automatizados al cargar el documento
+        document.addEventListener("DOMContentLoaded", function () {
+            const notFromProjectCheckbox = document.getElementById('notFromProject');
+            const codeProyectInput = document.getElementById('CodeProyect');
+            const participantCodeInput = document.getElementById('ParticipantCode');
+            const churchInput = document.getElementById('Church');
+
+            // Función para manejar el cambio de estado del checkbox
+            function handleCheckboxChange() {
+                if (notFromProjectCheckbox.checked) {
+                    churchInput.disabled = true;
+                    codeProyectInput.disabled = false;
+                    participantCodeInput.disabled = false;
+                } else {
+                    churchInput.disabled = false;
+                    codeProyectInput.disabled = true;
+                    participantCodeInput.disabled = true;
+                }
+            }
+
+            // Inicializar los inputs deshabilitados
+            handleCheckboxChange();
+
+            // Agregar el evento change al checkbox
+            notFromProjectCheckbox.addEventListener('change', handleCheckboxChange);
+
+            // Calcular la edad en base a la fecha de nacimiento
+            const birthDateInput = document.querySelector('input[name="DateOfBirth"]');
+            const ageInput = document.querySelector('input[name="Age"]');
+
+            function calculateAge() {
+                const birthDateValue = birthDateInput.value.trim();
+                if (birthDateValue !== "") {
+                    const birthDate = new Date(birthDateValue);
+                    const currentDate = new Date();
+                    let age = currentDate.getFullYear() - birthDate.getFullYear();
+
+                    // Ajustar la edad si la fecha de nacimiento aún no ha ocurrido este año
+                    if (birthDate.getMonth() > currentDate.getMonth() ||
+                        (birthDate.getMonth() === currentDate.getMonth() && birthDate.getDate() > currentDate.getDate())) {
+                        age--;
+                    }
+                    ageInput.value = age;
+                } else {
+                    ageInput.value = "";
+                }
+            }
+            birthDateInput.addEventListener('change', calculateAge);
+            calculateAge();
+
+            // Función para autocompletar el campo StudentCode
+            function updateStudentCode() {
+                const nameInput = document.querySelector('input[name="Name"]');
+                const lastNameInput = document.querySelector('input[name="LastName"]');
+                const birthDateInput = document.querySelector('input[name="DateOfBirth"]');
+                const studentCodeInput = document.querySelector('input[name="StudentCode"]');
+
+                // Obtener la fecha actual
+                const currentYear = new Date().getFullYear();
+                const lastTwoDigitsYear = currentYear.toString().slice(-2);
+
+                // Escuchar cambios en los campos relevantes
+                function generateCode() {
+                    const firstName = nameInput.value.trim();
+                    const lastName = lastNameInput.value.trim();
+                    const birthDateValue = birthDateInput.value.trim();
+
+                    if (firstName && lastName && birthDateValue) {
+                        const firstInitial = firstName.charAt(0).toUpperCase();
+                        const secondInitial = firstName.split(' ')[1]?.charAt(0).toUpperCase() || '';
+                        const lastInitial = lastName.charAt(0).toUpperCase();
+                        const secondLastInitial = lastName.split(' ')[1]?.charAt(0).toUpperCase() || '';
+
+                        const birthDate = new Date(birthDateValue);
+                        const birthYear = birthDate.getFullYear();
+                        const lastTwoDigitsBirthYear = birthYear.toString().slice(-2);
+
+                        const studentCode = `${firstInitial}${secondInitial}${lastInitial}${secondLastInitial}${lastTwoDigitsBirthYear}${lastTwoDigitsYear}`;
+                        studentCodeInput.value = studentCode;
+                    } else {
+                        studentCodeInput.value = ''; // Limpiar el campo si falta información
+                    }
+                }
+
+                nameInput.addEventListener('input', generateCode);
+                lastNameInput.addEventListener('input', generateCode);
+                birthDateInput.addEventListener('change', generateCode);
+            }
+
+            updateStudentCode(); // Inicializar la funcionalidad de autocompletar StudentCode
+        });
+
+        // Método para mostrar vista previa de la imagen seleccionada
+        function mostrarImagen() {
+            var archivo = document.getElementById('imagen').files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var imagenPreview = document.getElementById('imagenPreview');
+                imagenPreview.src = e.target.result;
+                imagenPreview.style.display = 'block';
+            };
+            reader.readAsDataURL(archivo);
+        }
+
+        // Alerta con SweetAlert2 para crear un registro
+        function CreateRecord(e) {
+            e.preventDefault();
+            const form = document.getElementById('Form');
+            const inputs = document.querySelectorAll('.form-input');
+            const nameFields = ['Name', 'LastName'];
+            const regex = /^[A-ZÑa-zñáéíóúÁÉÍÓÚ. ]+$/;
+
+            let isValid = true;
+
+            nameFields.forEach((field) => {
+                const input = document.querySelector(`#${field}`);
+                if (!regex.test(input.value)) {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                Swal.fire({
+                    title: '!Advertencia!',
+                    text: 'Ciertos Campos Solo Deben Tener Letras, Revisa Tu Ficha',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: '¿Guardar Nuevo Estudiante?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Guardar Estudiante',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}
