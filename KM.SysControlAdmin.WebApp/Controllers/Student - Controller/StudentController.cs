@@ -1,7 +1,10 @@
 ﻿#region REFERENCIAS
 // Referencias Necesarias Para El Correcto Funcionamiento
 using KM.SysControlAdmin.BL.Student___BL;
+using KM.SysControlAdmin.BL.User___BL;
 using KM.SysControlAdmin.EN.Student___EN;
+using KM.SysControlAdmin.EN.Trainer___EN;
+using KM.SysControlAdmin.EN.User___EN;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +19,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Student___Controller
     {
         // Creamos Una Instancia Para Acceder a Los Metodos
         StudentBL studentBL = new StudentBL();
+        UserBL userBL = new UserBL();
 
         #region METODO PARA MOSTRAR INDEX
         // Accion Para Mostrar La Vista Index
@@ -62,6 +66,23 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Student___Controller
                 student.DateCreated = DateTime.Now;
                 student.DateModification = DateTime.Now;
                 int result = await studentBL.CreateAsync(student);
+
+                // Crear un nuevo objeto de tipo User y mapear las propiedades de Trainer con Server
+                var user = new User
+                {
+                    IdRole = 4,
+                    Name = student.Name,
+                    LastName = student.LastName,
+                    Email = student.Email,
+                    Password = student.Password,
+                    Status = student.Status,
+                    DateCreated = student.DateCreated,
+                    DateModification = student.DateModification,
+                    ImageData = student.ImageData,
+                };
+
+                // Guardar en la tabla User
+                int resultUser = await userBL.CreateAsync(user);
                 TempData["SuccessMessageCreate"] = "Estudiante Agregado Exitosamente";
                 return RedirectToAction(nameof(Index));
             }
