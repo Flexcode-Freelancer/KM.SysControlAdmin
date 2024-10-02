@@ -183,46 +183,49 @@
             birthDateInput.addEventListener('change', calculateAge);
             calculateAge();
 
-            // Función para autocompletar el campo StudentCode
-            function updateStudentCode() {
+            // Función para autocompletar el campo StudentCode y Email
+            function updateStudentCodeAndEmail() {
                 const nameInput = document.querySelector('input[name="Name"]');
                 const lastNameInput = document.querySelector('input[name="LastName"]');
-                const birthDateInput = document.querySelector('input[name="DateOfBirth"]');
                 const studentCodeInput = document.querySelector('input[name="StudentCode"]');
+                const emailInput = document.querySelector('input[name="Email"]');
 
                 // Obtener la fecha actual
                 const currentYear = new Date().getFullYear();
                 const lastTwoDigitsYear = currentYear.toString().slice(-2);
 
                 // Escuchar cambios en los campos relevantes
-                function generateCode() {
+                function generateCodeAndEmail() {
                     const firstName = nameInput.value.trim();
                     const lastName = lastNameInput.value.trim();
-                    const birthDateValue = birthDateInput.value.trim();
 
-                    if (firstName && lastName && birthDateValue) {
+                    if (firstName && lastName) {
                         const firstInitial = firstName.charAt(0).toUpperCase();
                         const secondInitial = firstName.split(' ')[1]?.charAt(0).toUpperCase() || '';
                         const lastInitial = lastName.charAt(0).toUpperCase();
                         const secondLastInitial = lastName.split(' ')[1]?.charAt(0).toUpperCase() || '';
 
-                        const birthDate = new Date(birthDateValue);
-                        const birthYear = birthDate.getFullYear();
+                        const birthDateValue = birthDateInput.value.trim();
+                        const birthYear = birthDateValue ? new Date(birthDateValue).getFullYear() : currentYear;
                         const lastTwoDigitsBirthYear = birthYear.toString().slice(-2);
 
                         const studentCode = `${firstInitial}${secondInitial}${lastInitial}${secondLastInitial}${lastTwoDigitsBirthYear}${lastTwoDigitsYear}`;
                         studentCodeInput.value = studentCode;
+
+                        // Autocompletar Email
+                        emailInput.value = `${studentCode.toLowerCase()}@@kerigmamusic.com`;
                     } else {
                         studentCodeInput.value = ''; // Limpiar el campo si falta información
+                        emailInput.value = ''; // Limpiar el email si falta información
                     }
                 }
 
-                nameInput.addEventListener('input', generateCode);
-                lastNameInput.addEventListener('input', generateCode);
-                birthDateInput.addEventListener('change', generateCode);
+                nameInput.addEventListener('input', generateCodeAndEmail);
+                lastNameInput.addEventListener('input', generateCodeAndEmail);
+                birthDateInput.addEventListener('change', generateCodeAndEmail);
             }
 
-            updateStudentCode(); // Inicializar la funcionalidad de autocompletar StudentCode
+            updateStudentCodeAndEmail(); // Inicializar la funcionalidad de autocompletar StudentCode y Email
         });
 
         // Método para mostrar vista previa de la imagen seleccionada
