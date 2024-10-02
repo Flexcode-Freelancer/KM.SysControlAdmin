@@ -70,7 +70,7 @@ GO
 GO
   CREATE TABLE Student (
   Id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-  StudentCode VARCHAR(6) NOT NULL,
+  StudentCode VARCHAR(8) NOT NULL,
   ProjectCode VARCHAR(6) NULL,
   ParticipantCode VARCHAR(11) NULL,
   [Name] VARCHAR(50) NOT NULL,

@@ -20,7 +20,7 @@ namespace KM.SysControlAdmin.EN.Student___EN
         [Key]
         public int Id { get; set; }
 
-        [StringLength(6, ErrorMessage = "Maximo 6 caracteres")]
+        [StringLength(8, ErrorMessage = "Maximo 8 caracteres")]
         [Display(Name = "Codigo de Estudiante")]
         [RegularExpression("^[a-zA-ZáéíóúÁÉÍÓÚñÑ0123456789 ]+$", ErrorMessage = "Debe contener solo Letras y Numeros")]
         public string StudentCode { get; set; } = string.Empty;
