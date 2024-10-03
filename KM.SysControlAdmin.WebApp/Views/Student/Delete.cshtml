@@ -1,0 +1,126 @@
+﻿@model KM.SysControlAdmin.EN.Student___EN.Student
+
+@{
+    ViewData["Title"] = "Eliminar Estudiante Existente";
+}
+
+<h1>Eliminar Estudiante Existente</h1>
+<p class="alert alert-danger">¿Estas Seguro De Eliminar el Siguiente Registro? Recuerda No Puedes Revertir Los Cambios.</p>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Información Personal</h2>
+            <dl class="row">
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ProjectCode)</dt>
+                @if (Model.ProjectCode != "")
+                {
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ProjectCode)</dd>
+                }
+                else
+                {
+                    <dd class="col-sm-8">"No Aplica Para Este Alumno"</dd>
+                }
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ParticipantCode)</dt>
+                @if (Model.ParticipantCode != "")
+                {
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ParticipantCode)</dd>
+                }
+                else
+                {
+                    <dd class="col-sm-8">"No Aplica Para Este Alumno"</dd>
+                }
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.LastName)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.LastName)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateOfBirth)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DateOfBirth)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Age)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Age) Años</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Church)</dt>
+                @if (Model.Church != "")
+                {
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Church)</dd>
+                }
+                else
+                {
+                    <dd class="col-sm-8">"No Aplica Para Este Alumno"</dd>
+                }
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Status)</dt>
+                @if (Model.Status == 1)
+                {
+                    <dd class="col-sm-8">Activo</dd>
+                }
+                else if (Model.Status == 2)
+                {
+                    <dd class="col-sm-8">Inactivo</dd>
+                }
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateCreated)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DateCreated)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateModification)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DateModification)</dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="row">
+                <dd class="col-sm-8">
+                    <img id="imagenPreview" src="@(ViewBag.ImageUrl != null ? "data:image/jpeg;base64," + ViewBag.ImageUrl : "")" alt="Vista previa de la imagen" style="max-width: 100%; max-height: 200px;" />
+                </dd>
+            </dl>
+        </div>
+        <br />
+        <form id="Form" asp-action="Delete" onsubmit="CreateRecord(event)">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Eliminar Alumno" class="btn btn-danger" /> |
+            <a class="btn btn-outline-secondary" asp-action="Index">Regresar a La Lista</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Función para mostrar una alerta de error
+        function showErrorAlert(message) {
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error'
+            });
+        }
+
+        // Mostrar alerta de ViewBag.Error si es necesario
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            @:showErrorAlert('@ViewBag.Error');
+        }
+
+        // Función para mostrar una alerta de confirmación antes de eliminar un registro
+        function CreateRecord(e) {
+            e.preventDefault();
+            const form = document.getElementById('Form');
+
+            Swal.fire({
+                title: '¿Eliminar Este Registro?',
+                text: '¿Estás seguro de eliminar el siguiente registro? Recuerda que no puedes revertir los cambios.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar Registro',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}
