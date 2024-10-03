@@ -1,0 +1,283 @@
+﻿@model KM.SysControlAdmin.EN.Student___EN.Student
+
+@{
+    ViewData["Title"] = "Modificar Estudiante";
+}
+
+@section Styles{
+    <link href="/css/Student/DesignCreateAndEdit.css" rel="stylesheet" />
+}
+
+<h1>Modificar Estudiante Existente</h1>
+<span>@ViewBag.Error</span>
+<br />
+<!-- Checkbox para "No soy del Proyecto" -->
+<div class="form-group form-check">
+    <input type="checkbox" id="notFromProject" class="form-check-input" />
+    <h5 for="notFromProject" class="form-check-label">Soy Parte Del Proyecto</h5>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form id="Form" asp-action="Edit" onsubmit="CreateRecord(event)" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="StudentCode" class="control-label"></label>
+                    <input asp-for="StudentCode" class="form-control" placeholder="Ingresar" readonly />
+                    <span asp-validation-for="StudentCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProjectCode" class="control-label"></label>
+                    <input asp-for="ProjectCode" id="CodeProyect" class="form-control" placeholder="Ingresar" />
+                    <span asp-validation-for="ProjectCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ParticipantCode" class="control-label"></label>
+                    <input asp-for="ParticipantCode" id="ParticipantCode" class="form-control" placeholder="Ingresar" />
+                    <span asp-validation-for="ParticipantCode" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" placeholder="Ingresar" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" placeholder="Ingresar" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfBirth" class="control-label"></label>
+                    <input asp-for="DateOfBirth" type="date" class="form-control" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Age" class="control-label"></label>
+                    <input asp-for="Age" class="form-control" placeholder="Ingresar" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="Church" class="control-label"></label>
+                    <input asp-for="Church" id="Church" class="form-control" placeholder="Ingresar" />
+                    <span asp-validation-for="Church" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select name="Status" class="form-select" required id="cbxStatus">
+                        <option value="">Seleccionar</option>
+                        <option value="1">Activo</option>
+                        <option value="2">Inactivo</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="imagen">Seleccionar Fotografia:</label>
+                    <input type="file" id="imagen" class="form-control" name="imagen" onchange="mostrarImagen()" asp-for="ImageData" />
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="DateCreated" class="control-label"></label>
+                    <input asp-for="DateCreated" type="date" class="form-control" readonly />
+                    <span asp-validation-for="DateCreated" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateModification" class="control-label"></label>
+                    <input asp-for="DateModification" type="date" class="form-control" readonly />
+                    <span asp-validation-for="DateModification" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div>
+                <img id="imagenPreview" src="@(ViewBag.ImageUrl != null ? "data:image/jpeg;base64," + ViewBag.ImageUrl : "")" alt="Vista previa de la imagen" style="max-width: 100%; max-height: 200px;" />
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Modificar Estudiante" class="btn btn-primary" /> |
+                <a class="btn btn-outline-secondary" asp-action="Index">Regresar a La Lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Inicializa los selectores con los valores del modelo
+            $("#cbxStatus").val('@Model.Status');
+
+            // Mostrar alerta de error si hay un error en ViewBag
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            @:showErrorAlert('@ViewBag.Error');
+        }
+
+                // Llamar a la función para habilitar/deshabilitar campos según los valores iniciales de CodeProyect y ParticipantCode
+                toggleFields();
+
+            // Asignar eventos
+            const birthDateInput = document.querySelector('input[name="DateOfBirth"]');
+            birthDateInput.addEventListener('change', calculateAge);
+
+            const notFromProjectCheckbox = document.getElementById('notFromProject');
+            notFromProjectCheckbox.addEventListener('change', toggleFields);
+
+            // Calcular la edad al cargar la página
+            calculateAge();
+
+            // Llamar a la función para autocompletar StudentCode y Email
+            updateStudentCodeAndEmail();
+        });
+
+        // Función para mostrar alerta de error
+        function showErrorAlert(message) {
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error'
+            });
+        }
+
+        // Función para calcular la edad en base a la fecha de nacimiento
+        function calculateAge() {
+            const birthDateInput = document.querySelector('input[name="DateOfBirth"]');
+            const ageInput = document.querySelector('input[name="Age"]');
+            const birthDateValue = birthDateInput.value.trim();
+
+            if (birthDateValue !== "") {
+                const birthDate = new Date(birthDateValue);
+                const currentDate = new Date();
+                let age = currentDate.getFullYear() - birthDate.getFullYear();
+
+                if (birthDate.getMonth() > currentDate.getMonth() ||
+                    (birthDate.getMonth() === currentDate.getMonth() && birthDate.getDate() > currentDate.getDate())) {
+                    age--;
+                }
+                ageInput.value = age;
+            } else {
+                ageInput.value = "";
+            }
+        }
+
+        // Función para autocompletar el campo StudentCode y Email
+        function updateStudentCodeAndEmail() {
+            const nameInput = document.querySelector('input[name="Name"]');
+            const lastNameInput = document.querySelector('input[name="LastName"]');
+            const studentCodeInput = document.querySelector('input[name="StudentCode"]');
+            const birthDateInput = document.querySelector('input[name="DateOfBirth"]');
+
+            // Función que genera el código
+            function generateCodeAndEmail() {
+                const firstName = nameInput.value.trim();
+                const lastName = lastNameInput.value.trim();
+                const currentYear = new Date().getFullYear();
+                const lastTwoDigitsYear = currentYear.toString().slice(-2);
+
+                if (firstName && lastName) {
+                    const firstInitial = firstName.charAt(0).toUpperCase();
+                    const secondInitial = firstName.split(' ')[1]?.charAt(0).toUpperCase() || '';
+                    const lastInitial = lastName.charAt(0).toUpperCase();
+                    const secondLastInitial = lastName.split(' ')[1]?.charAt(0).toUpperCase() || '';
+
+                    const birthDateValue = birthDateInput.value.trim();
+                    const birthYear = birthDateValue ? new Date(birthDateValue).getFullYear() : currentYear;
+                    const lastTwoDigitsBirthYear = birthYear.toString().slice(-2);
+
+                    const studentCode = `${firstInitial}${secondInitial}${lastInitial}${secondLastInitial}${lastTwoDigitsBirthYear}${lastTwoDigitsYear}`;
+                    studentCodeInput.value = studentCode;
+                } else {
+                    studentCodeInput.value = ''; // Limpiar el campo si falta información
+                }
+            }
+
+            // Escuchar cambios en los campos relevantes
+            nameInput.addEventListener('input', generateCodeAndEmail);
+            lastNameInput.addEventListener('input', generateCodeAndEmail);
+            birthDateInput.addEventListener('change', generateCodeAndEmail);
+
+            // Llamar a la función para establecer el valor inicial al cargar la página
+            generateCodeAndEmail();
+        }
+
+        // Función para mostrar vista previa de la imagen seleccionada
+        function mostrarImagen() {
+            var archivo = document.getElementById('imagen').files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var imagenPreview = document.getElementById('imagenPreview');
+                imagenPreview.src = e.target.result;
+                imagenPreview.style.display = 'block';
+            };
+            reader.readAsDataURL(archivo);
+        }
+
+        // Función para confirmar la creación del registro
+        function CreateRecord(e) {
+            e.preventDefault();
+            const form = document.getElementById('Form');
+            const nameFields = ['Name', 'LastName'];
+            const regex = /^[A-ZÑa-zñáéíóúÁÉÍÓÚ. ]+$/;
+            let isValid = true;
+
+            nameFields.forEach((field) => {
+                const input = document.querySelector(`input[name="${field}"]`);
+                if (!regex.test(input.value)) {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                Swal.fire({
+                    title: '!Advertencia!',
+                    text: 'Ciertos Campos Solo Deben Tener Letras, Revisa Tu Ficha',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: '¿Modificar Estudiante Existente?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Modificar Estudiante',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        }
+
+        // Función para habilitar o deshabilitar los campos según el estado del checkbox
+        function toggleFields() {
+            const notFromProjectCheckbox = document.getElementById('notFromProject');
+            const codeProyectInput = document.getElementById('CodeProyect');
+            const participantCodeInput = document.getElementById('ParticipantCode');
+            const churchInput = document.getElementById('Church');
+
+            const codeProyectValue = codeProyectInput.value.trim();
+            const participantCodeValue = participantCodeInput.value.trim();
+
+            if (codeProyectValue !== "" && participantCodeValue !== "") {
+                notFromProjectCheckbox.checked = true;
+                codeProyectInput.disabled = false;
+                participantCodeInput.disabled = false;
+                churchInput.disabled = true;
+            } else {
+                notFromProjectCheckbox.checked = false;
+                codeProyectInput.disabled = true;
+                participantCodeInput.disabled = true;
+                churchInput.disabled = false;
+            }
+        }
+    </script>
+}
