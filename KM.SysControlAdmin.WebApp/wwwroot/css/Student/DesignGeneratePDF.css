@@ -1,0 +1,110 @@
+﻿body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    vertical-align: top;
+    padding: 10px;
+}
+
+.logo {
+    padding-left: 10%;
+    width: 40%;
+}
+
+.text {
+    padding-top: 3%;
+    width: 70%;
+    text-align: center;
+}
+
+h1, h2, h3 {
+    margin: 5px 0;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+h3 {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* Estilos para la nueva sección de información complementaria */
+.info-complementaria {
+    width: 100%;
+}
+
+.info-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px; /* Añade espacio entre los grupos de dos elementos */
+}
+
+    .info-group p {
+        width: 48%; /* Asegura que los párrafos ocupen el 48% del ancho para dejar espacio entre ellos */
+        margin: 0;
+        font-size: 18px;
+    }
+
+.info-group-wide {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px; /* Añade espacio entre los grupos especiales como Zona, Distrito y Sector */
+}
+
+    .info-group-wide p {
+        width: 32%; /* Ajusta el ancho para que los tres párrafos quepan en una línea */
+        margin: 0;
+        font-size: 18px;
+    }
+
+/* Otros estilos existentes */
+.info {
+    width: 70%;
+}
+
+.image {
+    width: 30%;
+    text-align: center;
+}
+
+p {
+    margin: 10px 0; /* Aumenta el espacio entre los párrafos */
+    font-size: 20px; /* Tamaño de la fuente más grande */
+}
+
+.label {
+    font-weight: bold;
+}
+
+.line-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px; /* Aumenta el espacio entre los grupos de línea */
+}
+
+img {
+    max-width: 90%; /* Ajusta el tamaño máximo de la imagen */
+    height: auto;
+    margin-top: 20px; /* Añade un margen superior a la imagen */
+    float: left; /* Hace que la imagen flote hacia la izquierda */
+    margin-right: 50px; /* Añade espacio entre la imagen y el texto */
+}

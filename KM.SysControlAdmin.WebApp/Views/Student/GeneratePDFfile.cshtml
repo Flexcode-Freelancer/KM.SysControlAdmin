@@ -1,0 +1,121 @@
+﻿@model KM.SysControlAdmin.EN.Student___EN.Student
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Alumno/a PDF</title>
+    <link href="/css/Student/DesignGeneratePDF.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <table>
+            <tr>
+                <td class="logo">
+                    <img src="/assets/img/logos/Logo Kerigma Music.png" alt="Logo Oficial">
+                </td>
+                <td class="text">
+                    <h1>Ficha Oficial - Kerigma Music</h1>
+                    <h2>Credencial Del Alumno/a</h2>
+                    <h3>Teléfono: 0000-0000</h3>
+                    <h3>Correo: kerigmamusic@gmail.com</h3>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div class="container">
+        <table>
+            <tr>
+                <td class="info">
+                    <h1>Información Personal</h1>
+                    <div class="line-group">
+                        <p><strong>@Html.DisplayNameFor(model => model.StudentCode):</strong> @Html.DisplayFor(model => model.StudentCode)</p>
+                        @if(Model.ProjectCode != "")
+                        {
+                            <p><strong>@Html.DisplayNameFor(model => model.ProjectCode):</strong> @Html.DisplayFor(model => model.ProjectCode)</p>
+                        }
+                        else
+                        {
+                            <p><strong>@Html.DisplayNameFor(model => model.ProjectCode):</strong> "No Aplica Para Este Alumno/a"</p>
+                        }
+                        @if (Model.ParticipantCode != "")
+                        {
+                            <p><strong>@Html.DisplayNameFor(model => model.ParticipantCode):</strong> @Html.DisplayFor(model => model.ParticipantCode)</p>
+                        }
+                        else
+                        {
+                            <p><strong>@Html.DisplayNameFor(model => model.ParticipantCode):</strong> "No Aplica Para Este Alumno/a"</p>
+                        }
+                        <p><strong>@Html.DisplayNameFor(model => model.Name):</strong> @Html.DisplayFor(model => model.Name)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.LastName):</strong> @Html.DisplayFor(model => model.LastName)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.DateOfBirth):</strong> @Model.DateOfBirth.ToString("dd/MM/yyyy")</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.Age):</strong> @Html.DisplayFor(model => model.Age) Años</p>
+                        @if (Model.Church != "")
+                        {
+                            <p><strong>@Html.DisplayNameFor(model => model.Church):</strong> @Html.DisplayFor(model => model.Church)</p>
+                        }
+                        else
+                        {
+                            <p><strong>@Html.DisplayNameFor(model => model.Church):</strong> "No Aplica Para Este Alumno/a"</p>
+                        }
+                        @if (Model.Status == 1)
+                        {
+                            <p><strong>@Html.DisplayNameFor(model => model.Status):</strong> Activo</p>
+                        }
+                        else if (Model.Status == 2)
+                        {
+                            <p><strong>@Html.DisplayNameFor(model => model.Status):</strong> Inactivo</p>
+                        }
+                        else
+                        {
+                            <p><strong>Estatus:</strong> Sin Designar</p>
+                        }
+                        <p><strong>@Html.DisplayNameFor(model => model.DateCreated):</strong> @Html.DisplayFor(model => model.DateCreated)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.DateModification):</strong> @Html.DisplayFor(model => model.DateModification)</p>
+                    </div>
+                </td>
+                <td class="image">
+                    <!-- Fotografía -->
+                    @if (Model.ImageData != null)
+                    {
+                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.ImageData!)" alt="Fotografía" />
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td style="position:relative; align-content:unset;">
+                    <canvas id="barcodeCanvas" style="display:none;"></canvas> <!-- Canvas oculto para renderizar el código -->
+                    <img id="barcodeImage" alt="Código de Barras" /> <!-- Imagen que se mostrará en el PDF -->
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script src="~/plugins/JsBarcode/js/min.js"></script>
+    <script>
+        // Asegurarnos de que el código de barras se genera correctamente
+        document.addEventListener("DOMContentLoaded", function () {
+            var canvas = document.getElementById('barcodeCanvas');
+            var barcodeImage = document.getElementById('barcodeImage');
+
+            // Generar el código de barras en el canvas
+            JsBarcode(canvas, "@Model.StudentCode", {
+                format: "CODE128",
+                displayValue: true,
+                fontSize: 25,
+                width: 4, // Ancho de las barras
+                height: 115 // Altura del código de barras
+            });
+
+            // Convertir el canvas a imagen en base64
+            barcodeImage.src = canvas.toDataURL('image/png');
+        });
+    </script>
+</body>
+</html>

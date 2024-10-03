@@ -1,6 +1,7 @@
 ﻿#region REFERENCIAS
 // Referencias Necesarias Para El Correcto Funcionamiento
 using KM.SysControlAdmin.BL.Student___BL;
+using KM.SysControlAdmin.BL.Trainer___BL;
 using KM.SysControlAdmin.BL.User___BL;
 using KM.SysControlAdmin.EN.Student___EN;
 using KM.SysControlAdmin.EN.Trainer___EN;
@@ -8,6 +9,7 @@ using KM.SysControlAdmin.EN.User___EN;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Rotativa.AspNetCore;
 
 
 #endregion
@@ -236,6 +238,20 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Student___Controller
                     studentDB = new Student();
                 return View(studentDB);
             }
+        }
+        #endregion
+
+        #region METODO PARA REPORTE
+        // Metodo Para Generar Ficha o Reporte En PDF
+        [Authorize(Roles = "Desarrollador")]
+        public async Task<ActionResult> GeneratePDFfile(int id)
+        {
+            var generatePDF = await studentBL.GetByIdAsync(new Student { Id = id });
+            string fileName = $"FichaAlumno_{generatePDF.Name}_{generatePDF.LastName}_{generatePDF.StudentCode}_KM.pdf";
+            return new ViewAsPdf("GeneratePDFfile", generatePDF)
+            {
+                FileName = fileName
+            };
         }
         #endregion
     }
