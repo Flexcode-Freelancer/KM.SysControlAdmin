@@ -1,14 +1,14 @@
 ﻿@model KM.SysControlAdmin.EN.Student___EN.Student
 
 @{
-    ViewData["Title"] = "Agregar Estudiante";
+    ViewData["Title"] = "Agregar Alumno/a";
 }
 
 @section Styles {
     <link href="/css/Student/DesignCreateAndEdit.css" rel="stylesheet" />
 }
 
-<h1>Agregar Nuevo Estudiante</h1>
+<h1>Agregar Nuevo Alumno/a</h1>
 <span>@ViewBag.Error</span>
 <br />
 <!-- Checkbox para "No soy del Proyecto" -->
@@ -105,7 +105,7 @@
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Agregar Estudiante" class="btn btn-primary" /> |
+                <input type="submit" value="Agregar Alumno/a" class="btn btn-primary" /> |
                 <a class="btn btn-outline-secondary" asp-action="Index">Regresar a La Lista</a>
             </div>
         </form>

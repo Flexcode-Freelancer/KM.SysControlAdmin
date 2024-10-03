@@ -1,14 +1,14 @@
 ﻿@model KM.SysControlAdmin.EN.Student___EN.Student
 
 @{
-    ViewData["Title"] = "Modificar Estudiante";
+    ViewData["Title"] = "Modificar Alumno/a";
 }
 
 @section Styles{
     <link href="/css/Student/DesignCreateAndEdit.css" rel="stylesheet" />
 }
 
-<h1>Modificar Estudiante Existente</h1>
+<h1>Modificar Alumno/a Existente</h1>
 <span>@ViewBag.Error</span>
 <br />
 <!-- Checkbox para "No soy del Proyecto" -->
@@ -100,7 +100,7 @@
             <br />
             <br />
             <div class="form-group">
-                <input type="submit" value="Modificar Estudiante" class="btn btn-primary" /> |
+                <input type="submit" value="Modificar Alumno/a" class="btn btn-primary" /> |
                 <a class="btn btn-outline-secondary" asp-action="Index">Regresar a La Lista</a>
             </div>
         </form>
@@ -108,6 +108,10 @@
 </div>
 
 @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
     <script>
         $(document).ready(function () {
             // Inicializa los selectores con los valores del modelo

@@ -1,10 +1,10 @@
 ﻿@model KM.SysControlAdmin.EN.Student___EN.Student
 
 @{
-    ViewData["Title"] = "Eliminar Estudiante Existente";
+    ViewData["Title"] = "Eliminar Alumno/a Existente";
 }
 
-<h1>Eliminar Estudiante Existente</h1>
+<h1>Eliminar Alumno/a Existente</h1>
 <p class="alert alert-danger">¿Estas Seguro De Eliminar el Siguiente Registro? Recuerda No Puedes Revertir Los Cambios.</p>
 <hr />
 <div class="container">
@@ -81,13 +81,17 @@
         <br />
         <form id="Form" asp-action="Delete" onsubmit="CreateRecord(event)">
             <input type="hidden" asp-for="Id" />
-            <input type="submit" value="Eliminar Alumno" class="btn btn-danger" /> |
+            <input type="submit" value="Eliminar Alumno/a" class="btn btn-danger" /> |
             <a class="btn btn-outline-secondary" asp-action="Index">Regresar a La Lista</a>
         </form>
     </div>
 </div>
 
 @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
     <script>
         // Función para mostrar una alerta de error
         function showErrorAlert(message) {

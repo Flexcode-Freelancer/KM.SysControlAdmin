@@ -1,9 +1,9 @@
 ﻿@model KM.SysControlAdmin.EN.Student___EN.Student
 
 @{
-    ViewData["Title"] = "Detalles del Estudiante";
+    ViewData["Title"] = "Detalles Del Alumno/a";
 }
-<h1>Detalles del Estudiante</h1>
+<h1>Detalles Del Alumno/a</h1>
 <hr />
 <div class="container">
     <div class="row">
@@ -79,11 +79,15 @@
     </div>
 </div>
 <div>
-    @Html.ActionLink("Modificar Estudiante", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary", id = "modifyButton" }) |
+    @Html.ActionLink("Modificar Alumno/a", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary", id = "modifyButton" }) |
     <a class="btn btn-outline-secondary" asp-action="Index">Regresar a La Lista</a>
 </div>
 
 @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
     <script>
         function showErrorAlert(message) {
             Swal.fire({
