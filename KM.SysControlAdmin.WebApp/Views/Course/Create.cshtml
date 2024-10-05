@@ -121,13 +121,13 @@
                     const firstWord = nameParts[0];
                     const secondWord = nameParts.length > 1 ? nameParts[1] : '';
 
-                    const firstThreeLetters = firstWord.slice(0, 3).toUpperCase();
-                    const initialSecondWord = secondWord.charAt(0).toUpperCase();
-                    const lastLetter = nameValue.charAt(nameValue.length - 1).toUpperCase();
+                    const firstThreeLetters = firstWord.slice(0, 3).toLowerCase(); // Cambiado a toLowerCase
+                    const initialSecondWord = secondWord.charAt(0).toLowerCase(); // Cambiado a toLowerCase
+                    const lastLetter = nameValue.charAt(nameValue.length - 1).toLowerCase(); // Cambiado a toLowerCase
                     const maxStudents = maxStudentValue.padStart(2, '0');
                     const currentYear = new Date().getFullYear();
 
-                    inputCode.value = `KM${firstThreeLetters}${initialSecondWord}${lastLetter}${maxStudents}${currentYear}`;
+                    inputCode.value = `km${firstThreeLetters}${initialSecondWord}${lastLetter}${maxStudents}${currentYear}`; // Cambiado a minúsculas
                 } else {
                     inputCode.value = '';
                 }
@@ -165,11 +165,11 @@
             updateCode(); // Llamada inicial para actualizar el código
 
             // Mostrar alerta de ViewBag.Error si es necesario
-        @if (!string.IsNullOrEmpty(ViewBag.Error))
-        {
-            @:showErrorAlert('@ViewBag.Error');
-        }
-                });
+            @if (!string.IsNullOrEmpty(ViewBag.Error))
+            {
+                @:showErrorAlert('@ViewBag.Error');
+            }
+        });
 
         function showErrorAlert(message) {
             Swal.fire({

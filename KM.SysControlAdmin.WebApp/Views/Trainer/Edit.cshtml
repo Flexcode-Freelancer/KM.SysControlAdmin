@@ -140,18 +140,18 @@
             $("#cbxStatus").val('@Model.Status');
 
             // Mostrar alerta de error si ViewBag.Error tiene algún mensaje
-        @if (!string.IsNullOrEmpty(ViewBag.Error))
-        {
-            @:showErrorAlert('@ViewBag.Error');
-        }
+            @if (!string.IsNullOrEmpty(ViewBag.Error))
+            {
+                @:showErrorAlert('@ViewBag.Error');
+            }
 
-                // Asignar eventos a los elementos del formulario
-                document.getElementById('inputDui').addEventListener('input', function (event) {
-                    var inputValue = event.target.value;
-                    var formattedValue = formatDui(inputValue);
-                    event.target.value = formattedValue;
-                    generateCode(); // Actualizar el código al modificar el DUI
-                });
+            // Asignar eventos a los elementos del formulario
+            document.getElementById('inputDui').addEventListener('input', function (event) {
+                var inputValue = event.target.value;
+                var formattedValue = formatDui(inputValue);
+                event.target.value = formattedValue;
+                generateCode(); // Actualizar el código al modificar el DUI
+            });
 
             const birthDateInput = document.querySelector('input[name="DateOfBirth"]');
             birthDateInput.addEventListener('change', calculateAge);
@@ -244,14 +244,14 @@
             if (firstName) {
                 const firstNameParts = firstName.split(" ");
                 firstNameParts.forEach(name => {
-                    code += name.charAt(0).toUpperCase(); // Tomar la primera letra de cada nombre
+                    code += name.charAt(0).toLowerCase(); // Cambiado a toLowerCase
                 });
             }
 
             if (lastName) {
                 const lastNameParts = lastName.split(" ");
                 lastNameParts.forEach(last => {
-                    code += last.charAt(0).toUpperCase(); // Tomar la primera letra de cada apellido
+                    code += last.charAt(0).toLowerCase(); // Cambiado a toLowerCase
                 });
             }
 

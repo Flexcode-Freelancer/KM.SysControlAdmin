@@ -200,20 +200,21 @@
                     const lastName = lastNameInput.value.trim();
 
                     if (firstName && lastName) {
-                        const firstInitial = firstName.charAt(0).toUpperCase();
-                        const secondInitial = firstName.split(' ')[1]?.charAt(0).toUpperCase() || '';
-                        const lastInitial = lastName.charAt(0).toUpperCase();
-                        const secondLastInitial = lastName.split(' ')[1]?.charAt(0).toUpperCase() || '';
+                        const firstInitial = firstName.charAt(0).toLowerCase(); // Cambiado a toLowerCase
+                        const secondInitial = firstName.split(' ')[1]?.charAt(0).toLowerCase() || ''; // Cambiado a toLowerCase
+                        const lastInitial = lastName.charAt(0).toLowerCase(); // Cambiado a toLowerCase
+                        const secondLastInitial = lastName.split(' ')[1]?.charAt(0).toLowerCase() || ''; // Cambiado a toLowerCase
 
                         const birthDateValue = birthDateInput.value.trim();
                         const birthYear = birthDateValue ? new Date(birthDateValue).getFullYear() : currentYear;
                         const lastTwoDigitsBirthYear = birthYear.toString().slice(-2);
 
+                        // Generar el código estudiantil en minúsculas
                         const studentCode = `${firstInitial}${secondInitial}${lastInitial}${secondLastInitial}${lastTwoDigitsBirthYear}${lastTwoDigitsYear}`;
-                        studentCodeInput.value = studentCode;
+                        studentCodeInput.value = studentCode; // Asignar el código
 
                         // Autocompletar Email
-                        emailInput.value = `${studentCode.toLowerCase()}@@kerigmamusic.com`;
+                        emailInput.value = `${studentCode}@@kerigmamusic.com`; // Mantener el email en minúsculas
                     } else {
                         studentCodeInput.value = ''; // Limpiar el campo si falta información
                         emailInput.value = ''; // Limpiar el email si falta información

@@ -203,14 +203,14 @@
             if (firstName) {
                 const firstNameParts = firstName.split(" ");
                 firstNameParts.forEach(name => {
-                    code += name.charAt(0).toUpperCase(); // Tomar la primera letra de cada nombre
+                    code += name.charAt(0).toLowerCase(); // Cambiado a toLowerCase
                 });
             }
 
             if (lastName) {
                 const lastNameParts = lastName.split(" ");
                 lastNameParts.forEach(last => {
-                    code += last.charAt(0).toUpperCase(); // Tomar la primera letra de cada apellido
+                    code += last.charAt(0).toLowerCase(); // Cambiado a toLowerCase
                 });
             }
 
@@ -227,7 +227,7 @@
             codeField.value = code;
 
             // Generar el email con el formato "código@kerigmamusic.com"
-            emailField.value = code.toLowerCase() + "@@kerigmamusic.com";
+            emailField.value = code + "@@kerigmamusic.com"; // Elimina uno de los "@@" para corregir la sintaxis
         }
 
         // Función para mostrar vista previa de la imagen seleccionada
