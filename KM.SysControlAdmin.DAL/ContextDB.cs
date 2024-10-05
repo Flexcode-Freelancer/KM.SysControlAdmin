@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KM.SysControlAdmin.EN.Course___EN;
+using KM.SysControlAdmin.EN.CourseAssignament___EN;
 using KM.SysControlAdmin.EN.Role___EN;
 using KM.SysControlAdmin.EN.Schedule___EN;
 using KM.SysControlAdmin.EN.Student___EN;
@@ -32,6 +33,7 @@ namespace KM.SysControlAdmin.DAL
         public DbSet<Schedule> Schedule { get; set; }
         public DbSet<Course> Course { get; set; }
         public DbSet<Student> Student { get; set; }
+        public DbSet<CourseAssignment> CourseAssignment { get; set; }
         #endregion
 
         #region STRING DE CONEXION
