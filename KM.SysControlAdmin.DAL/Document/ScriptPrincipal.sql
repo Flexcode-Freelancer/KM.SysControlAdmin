@@ -84,3 +84,11 @@ GO
   DateModification DATETIME NOT NULL,
   );
 GO
+  CREATE TABLE CourseAssignment(
+  Id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  IdStudent INT NOT NULL FOREIGN KEY REFERENCES Student(Id),
+  IdCourse INT NOT NULL FOREIGN KEY REFERENCES Course(Id),
+  DateCreated DATETIME NOT NULL,
+  DateModification DATETIME NOT NULL,
+);
+GO
