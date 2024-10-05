@@ -90,5 +90,5 @@ GO
   IdCourse INT NOT NULL FOREIGN KEY REFERENCES Course(Id),
   DateCreated DATETIME NOT NULL,
   DateModification DATETIME NOT NULL,
-);
+  );
 GO
