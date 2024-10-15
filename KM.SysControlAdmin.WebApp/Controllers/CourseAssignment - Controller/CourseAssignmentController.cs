@@ -55,7 +55,8 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
 
             var studentDetails = new
             {
-                CodeProyect = student.ProjectCode,
+                StudentCode = student.StudentCode,
+                ProjectCode = student.ProjectCode,
                 ParticipantCode = student.ParticipantCode,
                 DateOfBirth = student.DateOfBirth.ToString("dd/MM/yyyy"), // Para que se muestre correctamente en el input date
                 Age = student.Age,
@@ -80,13 +81,13 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
             {
                 Code = course.Code,
                 Name = course.Name,
-                StarTime = course.StartTime.ToString("dd/MM/yyyy"),
+                StartTime = course.StartTime.ToString("dd/MM/yyyy"), // Cambia StarTime a StartTime
                 EndTime = course.EndTime.ToString("dd/MM/yyyy"),
                 MaxStudent = course.MaxStudent,
-                Schedule = course.Schedule != null
-                ? $"{course.Schedule.StartTime:HH:mm} - {course.Schedule.EndTime:HH:mm}" : null,
-                Trainer = course.Trainer != null
-                ? $"{course.Trainer.Name} {course.Trainer.LastName}" : null,
+                Schedule = course.IdSchedule != null
+                    ? $"{course.Schedule.StartTime:HH:mm} - {course.Schedule.EndTime:HH:mm}" : null,
+                Trainer = course.IdTrainer != null
+                    ? $"{course.Trainer.Name} {course.Trainer.LastName}" : null,
                 Status = course.Status
             };
             return Json(courseDetails);
@@ -114,7 +115,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
                 courseAssignment.DateCreated = DateTime.Now;
                 courseAssignment.DateModification = DateTime.Now;
                 int result = await courseAssignmentBL.CreateAsync(courseAssignment);
-                TempData["SuccessMessageCreate"] = "Asginación Agregada Exitosamente";
+                TempData["SuccessMessageCreate"] = "Asignacion Agregada Exitosamente";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
