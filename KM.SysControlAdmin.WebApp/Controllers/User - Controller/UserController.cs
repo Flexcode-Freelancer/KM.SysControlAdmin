@@ -251,6 +251,30 @@ namespace KM.SysControlAdmin.WebApp.Controllers.User___Controller
         }
         #endregion
 
+        #region METODO PARA DETALLES
+        // Accion Que Muestra El Formulario
+        [Authorize(Roles = "Desarrollador")]
+        public async Task<IActionResult> Information()
+        {
+            try
+            {
+                var users = await userBL.SearchIncludeRoleAsync(new User { Email = User.Identity!.Name!, Top_Aux = 1 });
+                var actualUser = users.FirstOrDefault();
+                // Convertir el array de bytes en imagen para mostrar en la vista
+                if (actualUser!.ImageData != null && actualUser.ImageData.Length > 0)
+                {
+                    ViewBag.ImageUrl = Convert.ToBase64String(actualUser.ImageData);
+                }
+                return View(actualUser);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View();
+            }
+        }
+        #endregion
+
         #region METODO DE INICIO DE SESION Y CERRAR SESION (LOGIN, LOGOUT)
         // Accion Que Muestra El Formulario
         [AllowAnonymous]

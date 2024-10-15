@@ -1,0 +1,34 @@
+﻿/* Contenedor principal que usa Flexbox para centrar horizontal y verticalmente */
+.user-container {
+    height: 78vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+/* Caja que contiene la información del usuario */
+.user-info {
+    text-align: center; /* Centrar texto */
+}
+
+/* Hacer la imagen redonda */
+.user-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; /* Esto hace la imagen redonda */
+    object-fit: cover; /* Asegura que la imagen no se distorsione */
+    margin-bottom: 20px; /* Espacio entre la imagen y el nombre */
+}
+
+/* Estilo para nombre, email y rol */
+h2, p {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+p {
+    font-size: 18px;
+    color: #555; /* Color más suave para los textos */
+}
