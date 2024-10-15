@@ -1,0 +1,143 @@
+﻿@using KM.SysControlAdmin.EN.Student___EN
+@using KM.SysControlAdmin.EN.Course___EN
+@model IEnumerable<KM.SysControlAdmin.EN.CourseAssignament___EN.CourseAssignment>
+
+@{
+    ViewData["Title"] = "Asginación";
+    List<Student> students = ViewBag.Students as List<Student>;
+    List<Course> courses = ViewBag.Courses as List<Course>;
+}
+
+<h1>Mantenimiento Para Asinaciones</h1>
+<hr />
+<div class="container">
+    <form asp-action="Index">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-group">Estudiante</label>
+                    <select class="select2 form-select" name="IdStudent" id="IdStudent">
+                        <option selected value="">Seleccionar</option>
+                        @foreach (var item in students!)
+                        {
+                            <option value="@item.Id">@item.Name @item.LastName - @item.StudentCode</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-group">Curso</label>
+                    <select class="select2 form-select" name="IdCourse" id="IdCourse">
+                        <option selected value="">Seleccionar</option>
+                        @foreach (var item in courses!)
+                        {
+                            <option value="@item.Id">@item.Name - @item.Code</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <input type="submit" class="btn btn-outline-success m-1" value="Buscar Asignación" /> &nbsp;&nbsp;
+                    <a asp-action="Create" class="btn btn-primary">Crear Nueva Asignación</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<br />
+<br />
+<h2>Tabla de Resultados</h2>
+<br />
+<table id="ResultData" class="hover" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Apellido
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCourse)
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student!.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student!.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course!.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Modificar", "Edit", new { id = item.Id }, new { @class = "btn btn-warning m-1" }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.Id }, new { @class = "btn btn-outline-info m-1" }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-danger m-1" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        // Inicializamos el Plugin de Autocompletado y Busqueda De Profesion u Oficio
+        $(document).ready(function () {
+            $('#IdStudent').select2();
+            $('#IdCourse').select2();
+        });
+        new DataTable('#ResultData', {
+            info: false,
+            order: false,
+            Response: true,
+            pagingType: 'simple_numbers',
+            language: {
+                search: 'Busqueda Rapida :',
+                searchPlaceholder: 'Ingresar',
+                lengthMenu: '_MENU_ Mostrar',
+                emptyTable: 'No Hay Datos Que Coincidan Con Su Criterio De Búsqueda.',
+                zeroRecords: 'No Existen Registros Segun La Busqueda',
+                processing: 'Procesando...',
+            }
+        });
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 8000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+        });
+        // Comprobar si hay mensajes de éxito y mostrar notificaciones del sistema
+        const successMessages = {
+            Creado: '@TempData["SuccessMessageCreate"]',
+            Modificado: '@TempData["SuccessMessageUpdate"]',
+            Eliminado: '@TempData["SuccessMessageDelete"]'
+        };
+        for (const messageType in successMessages) {
+            const message = successMessages[messageType];
+            if (message) {
+                Toast.fire({
+                    icon: "success",
+                    title: `¡${messageType} Exitosamente!`,
+                    text: message
+                });
+            }
+        }
+    </script>
+}
