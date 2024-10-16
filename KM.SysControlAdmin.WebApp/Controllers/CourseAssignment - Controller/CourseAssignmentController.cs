@@ -81,14 +81,16 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
             {
                 Code = course.Code,
                 Name = course.Name,
-                StartTime = course.StartTime.ToString("dd/MM/yyyy"), // Cambia StarTime a StartTime
+                StartTime = course.StartTime.ToString("dd/MM/yyyy"),
                 EndTime = course.EndTime.ToString("dd/MM/yyyy"),
                 MaxStudent = course.MaxStudent,
-                Schedule = course.IdSchedule != null
-                    ? $"{course.Schedule.StartTime:HH:mm} - {course.Schedule.EndTime:HH:mm}" : null,
+                Schedule = course.IdSchedule != null && course.Schedule?.StartTime != null && course.Schedule?.EndTime != null
+                    ? $"{((TimeSpan)course.Schedule.StartTime):hh\\:mm} - {((TimeSpan)course.Schedule.EndTime):hh\\:mm}"
+                    : null,
                 Trainer = course.IdTrainer != null
-                    ? $"{course.Trainer.Name} {course.Trainer.LastName}" : null,
-                Status = course.Status
+                    ? $"{course.Trainer.Name} {course.Trainer.LastName}"
+                    : null,
+                Status = course.Status == 1 ? "Activo" : course.Status == 2 ? "Inactivo" : "Desconocido" // Lógica de validación
             };
             return Json(courseDetails);
         }
