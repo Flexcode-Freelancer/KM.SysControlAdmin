@@ -167,7 +167,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
                 }
                 courseAssignment.DateModification = DateTime.Now;
                 int result = await courseAssignmentBL.UpdateAsync(courseAssignment);
-                TempData["SuccessMessageUpdate"] = "Asingación Modificada Exitosamente";
+                TempData["SuccessMessageUpdate"] = "Asingacion Modificada Exitosamente";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -253,7 +253,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
             {
                 CourseAssignment courseAssignmentDB = await courseAssignmentBL.GetByIdAsync(courseAssignment);
                 int result = await courseAssignmentBL.DeleteAsync(courseAssignmentDB);
-                TempData["SuccessMessageDelete"] = "Asingación Eliminada Exitosamente";
+                TempData["SuccessMessageDelete"] = "Asingacion Eliminada Exitosamente";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
