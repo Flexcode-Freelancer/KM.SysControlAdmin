@@ -1,0 +1,293 @@
+﻿@using KM.SysControlAdmin.EN.Student___EN
+@using KM.SysControlAdmin.EN.Course___EN
+@model KM.SysControlAdmin.EN.CourseAssignament___EN.CourseAssignment
+
+@{
+    ViewData["Title"] = "Modificar Asignación";
+    List<Student> students = ViewBag.Student as List<Student>;
+    List<Course> courses = ViewBag.Course as List<Course>;
+}
+
+@section Styles {
+    <link href="/css/CourseAssignment/DesignCreateAndEdit.css" rel="stylesheet" />
+}
+
+<h1>Modificar Asignación Existente</h1>
+<span>@ViewBag.Error</span>
+<hr />
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <form id="Form" asp-action="Edit" onsubmit="CreateRecord(event)">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <h2>Información Personal Del Alumno</h2>
+            <br />
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="IdStudent" class="control-label"></label>
+                    <select class="select2 form-select" name="IdStudent" id="IdStudent">
+                        <option selected value="">Seleccionar</option>
+                        @foreach (var item in students!)
+                        {
+                            <option value="@item.Id">@item.Name @item.LastName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="IdStudent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label">Codigo De Estudiante</label>
+                    <input type="text" id="StudentCode" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label">Codigo Del Proyecto</label>
+                    <input type="text" id="CodeProject" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label for="" class="control-label">Codigo Del Participante</label>
+                    <input type="text" id="ParticipantCode" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label">Fecha De Nacimiento</label>
+                    <input type="text" id="DateOfBirth" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label">Edad</label>
+                    <input type="text" id="Age" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label">Nombre De La Iglesia</label>
+                    <input type="text" id="Church" class="form-control" readonly />
+                </div>
+            </div>
+            <br />
+            <div>
+                <img id="imagenPreview" src="" alt="Vista previa de la imagen" style="max-width: 100%; max-height: 200px;" />
+            </div>
+            <br />
+            <br />
+            <h2>Informacion Del Curso</h2>
+            <br />
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="IdCourse" class="control-label"></label>
+                    <select class="select2 form-select" name="IdCourse" id="IdCourse">
+                        <option selected value="">Seleccionar</option>
+                        @foreach (var item in courses!)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="IdCourse" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label">Codigo Del Curso</label>
+                    <input type="text" id="Code" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label">Nombre Del Curso</label>
+                    <input type="text" id="Name" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label for="" class="control-label">Fecha De Inicio</label>
+                    <input type="text" id="StartTime" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label">Fecha De Finalización</label>
+                    <input type="text" id="EndTime" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label">Maximo De Estudiantes</label>
+                    <input type="text" id="MaxStudent" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label for="" class="control-label">Horario</label>
+                    <input type="text" id="Schedule" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label">Instructor</label>
+                    <input type="text" id="Trainer" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label">Estatus</label>
+                    <input type="text" id="Status" class="form-control" readonly />
+                </div>
+            </div>
+            <br />
+            <br />
+            <h2>Información Complementaria</h2>
+            <br />
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label asp-for="DateCreated" class="control-label"></label>
+                    <input asp-for="DateCreated" type="date" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateModification" class="control-label"></label>
+                    <input asp-for="DateModification" type="date" class="form-control" readonly />
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Modificar Asignación" class="btn btn-primary" /> |
+                <a class="btn btn-outline-secondary" asp-action="Index">Regresar a La Lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            $('#IdStudent').select2();
+            $('#IdCourse').select2();
+
+            // Cargar los valores seleccionados en los selects
+            var selectedStudentId = '@Model.IdStudent';
+            var selectedCourseId = '@Model.IdCourse';
+
+            // Establecer el valor seleccionado usando jQuery
+            $('#IdStudent').val(selectedStudentId).trigger('change');
+            $('#IdCourse').val(selectedCourseId).trigger('change');
+
+            // Función para autocompletar información del Estudiante
+            function autocompleteStudentDetails(studentId) {
+                console.log('Autocompletar Estudiante:', studentId);
+                if (studentId) {
+                    $.ajax({
+                        url: '@Url.Action("GetStudentDetails", "CourseAssignment")',
+                        type: 'GET',
+                        data: { id: studentId },
+                        success: function (data) {
+                            console.log('Datos del estudiante:', data);
+                            if (data.error) {
+                                showErrorAlert(data.error);
+                            } else {
+                                $('#StudentCode').val(data.studentCode);
+                                $('#CodeProject').val(data.projectCode);
+                                $('#ParticipantCode').val(data.participantCode);
+                                $('#DateOfBirth').val(data.dateOfBirth);
+                                $('#Age').val(data.age);
+                                $('#Church').val(data.church);
+                                $('#imagenPreview').attr('src', 'data:image/jpeg;base64,' + data.imageData);
+                            }
+                        },
+                        error: function () {
+                            showErrorAlert('Error al obtener los detalles del estudiante.');
+                        }
+                    });
+                } else {
+                    // Limpiar los campos si no se selecciona ningún miembro
+                    $('#StudentCode').val('');
+                    $('#CodeProject').val('');
+                    $('#ParticipantCode').val('');
+                    $('#DateOfBirth').val('');
+                    $('#Age').val('');
+                    $('#Church').val('');
+                    $('#imagenPreview').attr('src', ''); // Limpiar la imagen
+                }
+            }
+
+            // Función para autocompletar información del Curso
+            function autocompleteCourseDetails(courseId) {
+                console.log('Autocompletar Curso:', courseId);
+                if (courseId) {
+                    $.ajax({
+                        url: '@Url.Action("GetCourseDetails", "CourseAssignment")',
+                        type: 'GET',
+                        data: { id: courseId },
+                        success: function (data) {
+                            console.log('Datos del curso:', data);
+                            if (data.error) {
+                                showErrorAlert(data.error);
+                            } else {
+                                $('#Code').val(data.code);
+                                $('#Name').val(data.name);
+                                $('#StartTime').val(data.startTime);
+                                $('#EndTime').val(data.endTime);
+                                $('#MaxStudent').val(data.maxStudent);
+                                $('#Schedule').val(data.schedule);
+                                $('#Trainer').val(data.trainer);
+                                $('#Status').val(data.status);
+                            }
+                        },
+                        error: function () {
+                            showErrorAlert('Error al obtener los detalles del curso.');
+                        }
+                    });
+                } else {
+                    // Limpiar los campos si no se selecciona ningún miembro
+                    $('#Code').val('');
+                    $('#Name').val('');
+                    $('#StartTime').val('');
+                    $('#EndTime').val('');
+                    $('#MaxStudent').val('');
+                    $('#Schedule').val('');
+                    $('#Trainer').val('');
+                    $('#Status').val('');
+                }
+            }
+
+            // Autocompletar al cargar la página si hay un seleccionado
+            autocompleteStudentDetails(selectedStudentId);
+            autocompleteCourseDetails(selectedCourseId);
+
+            // Automatización de autocompletar al cambiar el valor del select
+            $('#IdStudent').on('change', function () {
+                var studentId = $(this).val();
+                autocompleteStudentDetails(studentId);
+            });
+
+            $('#IdCourse').on('change', function () {
+                var courseId = $(this).val();
+                autocompleteCourseDetails(courseId);
+            });
+
+            // Función para mostrar alertas de error con SweetAlert2
+            function showErrorAlert(message) {
+                Swal.fire({
+                    title: 'Error',
+                    text: message,
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
+            }
+
+            // Mostrar error de ViewBag.Error si es necesario
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            @:showErrorAlert('@ViewBag.Error');
+        }
+            });
+
+        // Función para mostrar alerta de confirmación
+        window.CreateRecord = function (e) {
+            e.preventDefault();
+            const form = document.getElementById('Form');
+
+            // Si todos los campos son válidos, muestra la alerta de confirmación
+            Swal.fire({
+                title: '¿Guardar Nuevo Registro?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Guardar Registro',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}
