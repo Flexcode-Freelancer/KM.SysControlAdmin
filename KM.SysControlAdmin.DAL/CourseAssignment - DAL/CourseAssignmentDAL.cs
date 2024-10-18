@@ -41,7 +41,7 @@ namespace KM.SysControlAdmin.DAL.CourseAssignment___DAL
                     result = await dbContext.SaveChangesAsync();
                 }
                 else
-                    throw new Exception("Asignación Ya Existente, Vuelve a Intentarlo Nuevamente");
+                    throw new Exception("Asignacion Ya Existente, Vuelve a Intentarlo Nuevamente");
             }
             return result;
         }
@@ -70,12 +70,12 @@ namespace KM.SysControlAdmin.DAL.CourseAssignment___DAL
                     }
                     else
                     {
-                        throw new Exception("Asignación Ya Existente, Vuelve a Intentarlo Nuevamente");
+                        throw new Exception("Asignacion Ya Existente, Vuelve a Intentarlo Nuevamente");
                     }
                 }
                 else
                 {
-                    throw new Exception("Asignación No Encontrada Para Actualizar.");
+                    throw new Exception("Asignacion No Encontrada Para Actualizar.");
                 }
             }
             return result;
