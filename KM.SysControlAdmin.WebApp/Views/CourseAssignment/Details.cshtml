@@ -1,0 +1,222 @@
+﻿@model KM.SysControlAdmin.EN.CourseAssignament___EN.CourseAssignment
+
+@{
+    ViewData["Title"] = "Detalles de la Asignación";
+}
+
+<h1>Detalles de la Asignación</h1>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Inforamcion Personal</h2>
+            <dl class="row">
+                <!-- Campo oculto para IdMembership -->
+                <input type="hidden" id="IdStudent" value="@Model.IdStudent" />
+                <dt class="col-sm-4">Nombre</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Student!.Name)</dd>
+
+                <dt class="col-sm-4">Apellido</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Student!.LastName)</dd>
+
+                <dt class="col-sm-4">Codigo De Estudiante</dt>
+                <dd class="col-sm-8" id="StudentCode"></dd>
+
+                <dt class="col-sm-4">Codigo Del Proyecto</dt>
+                <dd class="col-sm-8" id="CodeProject"></dd>
+
+                <dt class="col-sm-4">Codigo Del Participante</dt>
+                <dd class="col-sm-8" id="ParticipantCode"></dd>
+
+                <dt class="col-sm-4">Fecha De Nacimiento</dt>
+                <dd class="col-sm-8" id="DateOfBirth"></dd>
+
+                <dt class="col-sm-4">Edad</dt>
+                <dd class="col-sm-8" id="Age"> Años</dd>
+
+                <dt class="col-sm-4">Nombre De La Iglesia</dt>
+                <dd class="col-sm-8" id="Church"></dd>
+            </dl>
+            <div>
+                <img id="imagenPreview" src="" alt="Vista previa de la imagen" style="max-width: 100%; max-height: 200px;" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2>Informacion Del Curso</h2>
+            <dl class="row">
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.IdCourse)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Course!.Name)</dd>
+
+                <dt class="col-sm-4">Codigo Del Curso</dt>
+                <dd class="col-sm-8" id="Code"></dd>
+
+                <dt class="col-sm-4">Nombre Del Curso</dt>
+                <dd class="col-sm-8" id="Name"></dd>
+
+                <dt class="col-sm-4">Fecha De Inicio</dt>
+                <dd class="col-sm-8" id="StartTime"></dd>
+
+                <dt class="col-sm-4">Fecha De Finalización</dt>
+                <dd class="col-sm-8" id="EndTime"></dd>
+
+                <dt class="col-sm-4">Maximo De Estudiantes</dt>
+                <dd class="col-sm-8" id="MaxStudent"></dd>
+
+                <dt class="col-sm-4">Horario</dt>
+                <dd class="col-sm-8" id="Schedule"></dd>
+
+                <dt class="col-sm-4">Instructor</dt>
+                <dd class="col-sm-8" id="Trainer"></dd>
+
+                <dt class="col-sm-4">Estatus</dt>
+                <dd class="col-sm-8" id="Status"></dd>
+            </dl>
+            <br />
+            <h2>Informacion Complementarias</h2>
+            <dl class="row">
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateCreated)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DateCreated)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateModification)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DateModification)</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<br />
+<div>
+    @Html.ActionLink("Modificar Asignación", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary", id = "modifyButton" }) |
+    <a class="btn btn-outline-secondary" asp-action="Index">Regresar a La Lista</a>
+</div>
+
+@section Scripts {
+    <script>
+
+        // Función para mostrar alertas de error utilizando SweetAlert2
+        function showErrorAlert(message) {
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error'
+            });
+        }
+
+        // Evento que se ejecuta una vez que el DOM ha sido completamente cargado
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // Mostrar alerta de ViewBag.Error si es necesario
+            @if (!string.IsNullOrEmpty(ViewBag.Error))
+            {
+                @:showErrorAlert('@ViewBag.Error');
+            }
+
+            // Agregar el evento de clic al botón de modificar
+            const modifyButton = document.getElementById('modifyButton');
+            if (modifyButton) {
+                modifyButton.addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevenir la acción predeterminada del enlace
+                    Swal.fire({
+                        title: '¿Ir a La Vista Modificar?',
+                        text: "¿Estás seguro de que quieres ir a la vista Modificar?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, Ir a La Vista Modificar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '@Url.Action("Edit", "CourseAssignment", new { id = Model.Id })';
+                        }
+                    });
+                });
+            }
+        });
+
+        $(document).ready(function () {
+            // Función para autocompletar información del Estudiante
+            function autocompleteStudentDetails(studentId) {
+                console.log('Autocompletar Estudiante:', studentId);
+                if (studentId) {
+                    $.ajax({
+                        url: '@Url.Action("GetStudentDetails", "CourseAssignment")',
+                        type: 'GET',
+                        data: { id: studentId },
+                        success: function (data) {
+                            console.log('Datos del estudiante:', data);
+                            if (data.error) {
+                                showErrorAlert(data.error);
+                            } else {
+                                $('#StudentCode').text(data.studentCode);
+                                $('#CodeProject').text(data.projectCode);
+                                $('#ParticipantCode').text(data.participantCode);
+                                $('#DateOfBirth').text(data.dateOfBirth);
+                                $('#Age').text(data.age + " Años");
+                                $('#Church').text(data.church);
+                                $('#imagenPreview').attr('src', 'data:image/jpeg;base64,' + data.imageData);
+                            }
+                        },
+                        error: function () {
+                            showErrorAlert('Error al obtener los detalles del estudiante.');
+                        }
+                    });
+                } else {
+                    // Limpiar los campos si no se selecciona ningún miembro
+                    $('#StudentCode').text('');
+                    $('#CodeProject').text('');
+                    $('#ParticipantCode').text('');
+                    $('#DateOfBirth').text('');
+                    $('#Age').text('');
+                    $('#Church').text('');
+                    $('#imagenPreview').attr('src', ''); // Limpiar la imagen
+                }
+            }
+
+            // Función para autocompletar información del Curso
+            function autocompleteCourseDetails(courseId) {
+                console.log('Autocompletar Curso:', courseId);
+                if (courseId) {
+                    $.ajax({
+                        url: '@Url.Action("GetCourseDetails", "CourseAssignment")',
+                        type: 'GET',
+                        data: { id: courseId },
+                        success: function (data) {
+                            console.log('Datos del curso:', data);
+                            if (data.error) {
+                                showErrorAlert(data.error);
+                            } else {
+                                $('#Code').text(data.code);
+                                $('#Name').text(data.name);
+                                $('#StartTime').text(data.startTime);
+                                $('#EndTime').text(data.endTime);
+                                $('#MaxStudent').text(data.maxStudent + " Maximo");
+                                $('#Schedule').text(data.schedule);
+                                $('#Trainer').text(data.trainer);
+                                $('#Status').text(data.status);
+                            }
+                        },
+                        error: function () {
+                            showErrorAlert('Error al obtener los detalles del curso.');
+                        }
+                    });
+                } else {
+                    // Limpiar los campos si no se selecciona ningún miembro
+                    $('#Code').text('');
+                    $('#Name').text('');
+                    $('#StartTime').text('');
+                    $('#EndTime').text('');
+                    $('#MaxStudent').text('');
+                    $('#Schedule').text('');
+                    $('#Trainer').text('');
+                    $('#Status').text('');
+                }
+            }
+
+            // Obtener el Id del modelo
+            var selectedStudentId = '@Model.IdStudent';
+            var selectedCourseId = '@Model.IdCourse';
+
+            // Autocompletar al cargar la página si hay un Id seleccionado
+            autocompleteStudentDetails(selectedStudentId);
+            autocompleteCourseDetails(selectedCourseId);
+        });
+    </script>
+}
