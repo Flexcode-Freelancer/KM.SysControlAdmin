@@ -56,11 +56,11 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
             var studentDetails = new
             {
                 StudentCode = student.StudentCode,
-                ProjectCode = student.ProjectCode,
-                ParticipantCode = student.ParticipantCode,
-                DateOfBirth = student.DateOfBirth.ToString("dd/MM/yyyy"), // Para que se muestre correctamente en el input date
+                ProjectCode = string.IsNullOrWhiteSpace(student.ProjectCode) ? "NO APLICA" : student.ProjectCode,
+                ParticipantCode = string.IsNullOrWhiteSpace(student.ParticipantCode) ? "NO APLICA" : student.ParticipantCode,
+                DateOfBirth = student.DateOfBirth.ToString("dd/MM/yyyy"),
                 Age = student.Age,
-                Church = student.Church,
+                Church = string.IsNullOrWhiteSpace(student.Church) ? "NO APLICA" : student.Church,
                 ImageData = student.ImageData
             };
             return Json(studentDetails);
