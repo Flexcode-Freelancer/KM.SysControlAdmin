@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Desarrollador")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Desarrollador, Administrador, Secretario/a")]
     public class CourseAssignmentController : Controller
     {
         // Creamos las instancias para acceder a los metodos
@@ -25,7 +25,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
 
         #region METODO PARA MOSTRAR INDEX
         // Accion Para Mostrar La Vista Index
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Index(CourseAssignment courseAssignment = null!)
         {
             if (courseAssignment == null)
@@ -43,7 +43,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
 
         #region METODOS PARA AUTOCOMPLETADO
         // Metod que extrae por Id y devolver a la vista en foramto Json
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpGet]
         public async Task<IActionResult> GetStudentDetails(int id)
         {
@@ -67,7 +67,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
         }
 
         // Metod que extrae por Id y devolver a la vista en formato Json
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpGet]
         public async Task<IActionResult> GetCourseDetails(int id)
         {
@@ -98,7 +98,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
 
         #region METODO PARA CREAR
         // Accion Para Mostrar La Vista De Crear
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Student = await studentBL.GetAllAsync();
@@ -107,7 +107,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
             return View();
         }
 
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CourseAssignment courseAssignment)
@@ -132,7 +132,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
 
         #region METODO PARA MODIFICAR
         // Acción que muestra la vista de modificar
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Edit(int id)
         {
             try
@@ -154,7 +154,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
         }
 
         // Acción que recibe los datos del formulario para ser enviados a la base de datos
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, CourseAssignment courseAssignment)
@@ -182,7 +182,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
 
         #region METODO PARA MOSTRAR DETALLES
         // Acción Que Muestra El Detalle De Un Registro
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Details(int id)
         {
             try
@@ -215,7 +215,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
 
         #region METODO PARA ELIMINAR
         // Accion Que Muestra La Vista De Eliminar
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -244,7 +244,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.CourseAssignment___Controller
         }
 
         // Accion Que Recibe Los Datos Del Formulario Para Ser Enviados a La BD
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, CourseAssignment courseAssignment)
