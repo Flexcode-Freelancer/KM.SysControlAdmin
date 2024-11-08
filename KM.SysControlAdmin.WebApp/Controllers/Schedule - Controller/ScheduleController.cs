@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KM.SysControlAdmin.WebApp.Controllers.Schedule___Controller
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Desarrollador")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Desarrollador, Administrador, Secretario/a")]
     public class ScheduleController : Controller
     {
         // Instancia De La Clase Logica De Negocio
@@ -18,7 +18,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Schedule___Controller
 
         #region METODO PARA INDEX
         // Metodo Para Mostrar La Vista Index
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Index(Schedule schedule = null!)
         {
             if (schedule == null)
@@ -31,7 +31,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Schedule___Controller
 
         #region METODO PARA GUARDAR
         // Metodo Para Mostrar La Vista Guardar
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public IActionResult Create()
         {
             ViewBag.Error = "";
@@ -39,7 +39,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Schedule___Controller
         }
 
         // Metodo Que Recibe y Envia a La Base De Datos
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Schedule schedule)
@@ -59,7 +59,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Schedule___Controller
         #endregion
 
         #region METODO PARA MODIFICAR
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         // Metodo Para Mostrar La Vista De Modificar
         public async Task<IActionResult> Edit(int id)
         {
@@ -69,7 +69,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Schedule___Controller
         }
 
         // Metodo Que Recibe y Envia a La Base De Datos
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Schedule schedule)
@@ -90,7 +90,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Schedule___Controller
 
         #region METODO PARA ELIMINAR
         // Metodo Para Mostrar La Vista De Eliminar
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Delete(int id)
         {
             var schedule = await scheduleBL.GetByIdAsync(new Schedule { Id = id });
@@ -99,7 +99,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Schedule___Controller
         }
 
         // Metodo Que Recibe y Envia a La Base De Datos
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, Schedule schedule)
@@ -120,7 +120,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Schedule___Controller
 
         #region METODO PARA DETALLES
         // Metodo que Muestra La Vista De Detalles
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Details(int id)
         {
             var schedule = await scheduleBL.GetByIdAsync(new Schedule { Id = id });
