@@ -23,7 +23,8 @@ GO
 	INSERT INTO [Role] VALUES('Desarrollador');
 	INSERT INTO [Role] VALUES('Administrador');
 	INSERT INTO [Role] VALUES('Instructor/Docente');
-    INSERT INTO [Role] VALUES('Alumno');
+    INSERT INTO [Role] VALUES('Alumno/a');
+    INSERT INTO [Role] VALUES('Secretario/a');
 GO
     INSERT INTO [User] (IdRole, [Name], LastName, Email, [Password], [Status], DateCreated, DateModification) 
     VALUES (1, 'Flexcode', 'Freelancer', 'DesAdmin@kerigmamusic.com', 'c8aa131427a72781b156ac723ddb917f', 1, SYSDATETIME(), SYSDATETIME());
