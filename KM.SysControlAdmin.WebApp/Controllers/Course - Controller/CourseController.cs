@@ -16,7 +16,7 @@ using Rotativa.AspNetCore;
 
 namespace KM.SysControlAdmin.WebApp.Controllers.Course___Controller
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Desarrollador")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Desarrollador, Administrador, Secretario/a")]
     public class CourseController : Controller
     {
         // Creamos las instancias para acceder a los metodos
@@ -26,7 +26,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Course___Controller
 
         #region METODO PARA MOSTRAR INDEX
         // Accion Para Mostrar La Vista Index
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Index(Course course = null!)
         {
             if (course == null)
@@ -44,7 +44,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Course___Controller
 
         #region METODO PARA CREAR
         // Accion Para Mostrar La Vista De Crear
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Trainers = await trainerBL.GetAllAsync();
@@ -54,7 +54,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Course___Controller
         }
 
         // Accion Que Recibe Los Datos Del Formulario Para Ser Enviados a La BD
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Course course)
@@ -79,7 +79,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Course___Controller
 
         #region METODO PARA MODIFICAR
         // Acción que muestra la vista de modificar
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Edit(int id)
         {
             try
@@ -101,7 +101,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Course___Controller
         }
 
         // Acción que recibe los datos del formulario para ser enviados a la base de datos
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Course course)
@@ -129,7 +129,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Course___Controller
 
         #region METODO PARA MOSTRAR DETALLES
         // Acción Que Muestra El Detalle De Un Registro
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Details(int id)
         {
             try
@@ -162,7 +162,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Course___Controller
 
         #region METODO PARA ELIMINAR
         // Accion Que Muestra La Vista De Eliminar
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -191,7 +191,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Course___Controller
         }
 
         // Accion Que Recibe Los Datos Del Formulario Para Ser Enviados a La BD
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, Course course)
@@ -219,7 +219,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Course___Controller
 
         #region METODO PARA REPORTE
         // Metodo Para Generar Ficha o Reporte En PDF
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<ActionResult> GeneratePDFfile(int id)
         {
             var generatePDF = await courseBL.GetByIdAsync(new Course { Id = id });
