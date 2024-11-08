@@ -16,7 +16,7 @@ using Rotativa.AspNetCore;
 
 namespace KM.SysControlAdmin.WebApp.Controllers.Student___Controller
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Desarrollador")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Desarrollador, Administrador, Secretario/a")]
     public class StudentController : Controller
     {
         // Creamos Una Instancia Para Acceder a Los Metodos
@@ -25,7 +25,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Student___Controller
 
         #region METODO PARA MOSTRAR INDEX
         // Accion Para Mostrar La Vista Index
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Index(Student student = null!)
         {
             if (student == null)
@@ -38,7 +38,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Student___Controller
 
         #region METODO PARA CREAR
         // Accion Para Mostrar La Vista De Crear
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public ActionResult Create()
         {
             ViewBag.Error = "";
@@ -46,7 +46,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Student___Controller
         }
 
         // Accion Que Recibe Los Datos Del Formulario Para Ser Enviados a La BD
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Student student, IFormFile imagen)
@@ -98,7 +98,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Student___Controller
 
         #region METODO PARA MODIFICAR
         // Acción que muestra la vista de modificar
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Edit(int id)
         {
             try
@@ -123,7 +123,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Student___Controller
         }
 
         // Acción que recibe los datos del formulario para ser enviados a la base de datos
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Student student, IFormFile imagen)
@@ -165,7 +165,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Student___Controller
 
         #region METODO PARA MOSTRAR DETALLES
         // Accion Que Muestra El Detalle De Un Registro
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Details(int id)
         {
             try
@@ -192,7 +192,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Student___Controller
 
         #region METODO PARA ELIMINAR
         // Accion Que Muestra La Vista De Eliminar
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -218,7 +218,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Student___Controller
         }
 
         // Accion Que Recibe Los Datos Del Formulario Para Ser Enviados a La BD
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, Student student)
@@ -243,7 +243,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.Student___Controller
 
         #region METODO PARA REPORTE
         // Metodo Para Generar Ficha o Reporte En PDF
-        [Authorize(Roles = "Desarrollador")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
         public async Task<ActionResult> GeneratePDFfile(int id)
         {
             var generatePDF = await studentBL.GetByIdAsync(new Student { Id = id });
