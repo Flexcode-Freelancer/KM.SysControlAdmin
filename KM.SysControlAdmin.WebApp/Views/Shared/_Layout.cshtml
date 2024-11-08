@@ -36,106 +36,355 @@
                     <!-- Sidebar navigation-->
                     <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                         <ul id="sidebarnav">
-                            <!-- SECCION PRINCIPAL -->
-                            <li class="nav-small-cap">
-                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                                <span class="hide-menu">Principal</span>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" asp-area="" asp-controller="Home" asp-action="Index" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-home"></i>
-                                    </span>
-                                    <span class="hide-menu">Inicio</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" asp-area="" asp-controller="Home" asp-action="Dashboard" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-layout-dashboard"></i>
-                                    </span>
-                                    <span class="hide-menu">Dashboard</span>
-                                </a>
-                            </li>
-                            <!-- SECCION DE REGISTRO -->
-                            <li class="nav-small-cap">
-                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                                <span class="hide-menu">REGISTRO Y ASIGNACIÓN</span>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" asp-area="" asp-controller="Student" asp-action="Index" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-school"></i>
-                                    </span>
-                                    <span class="hide-menu">Alumnnos/as</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" asp-area="" asp-controller="CourseAssignment" asp-action="Index" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-address-book"></i>
-                                    </span>
-                                    <span class="hide-menu">Asignación de Curso</span>
-                                </a>
-                            </li>
-                            <!-- SECCION INFRAESTRUCTURA -->
-                            <li class="nav-small-cap">
-                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                                <span class="hide-menu">Infraestructura Interna</span>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" asp-area="" asp-controller="Trainer" asp-action="Index" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-golf"></i>
-                                    </span>
-                                    <span class="hide-menu">Instructores/Docentes</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" asp-area="" asp-controller="Schedule" asp-action="Index" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-clock-hour-4"></i>
-                                    </span>
-                                    <span class="hide-menu">Horarios</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" asp-area="" asp-controller="Course" asp-action="Index" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-award"></i>
-                                    </span>
-                                    <span class="hide-menu">Cursos</span>
-                                </a>
-                            </li>
-                            <!-- SECCION SEGURIDAD -->
-                            <li class="nav-small-cap">
-                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                                <span class="hide-menu">Seguridad</span>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" asp-area="" asp-controller="Role" asp-action="Index" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-git-fork"></i>
-                                    </span>
-                                    <span class="hide-menu">Roles</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" asp-area="" asp-controller="User" asp-action="Index" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-users"></i>
-                                    </span>
-                                    <span class="hide-menu">Usuarios</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" asp-area="" asp-controller="User" asp-action="ChangePassword" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-refresh"></i>
-                                    </span>
-                                    <span class="hide-menu">Cambiar Contraseña</span>
-                                </a>
-                            </li>
+                            @if (User.IsInRole("Desarrollador"))
+                            {
+                                <!-- SECCION PRINCIPAL -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Principal</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Home" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-home"></i>
+                                        </span>
+                                        <span class="hide-menu">Inicio</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Home" asp-action="Dashboard" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-layout-dashboard"></i>
+                                        </span>
+                                        <span class="hide-menu">Dashboard</span>
+                                    </a>
+                                </li>
+                                <!-- SECCION DE REGISTRO -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">REGISTRO Y ASIGNACIÓN</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Student" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-school"></i>
+                                        </span>
+                                        <span class="hide-menu">Alumnnos/as</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="CourseAssignment" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-address-book"></i>
+                                        </span>
+                                        <span class="hide-menu">Asignación de Curso</span>
+                                    </a>
+                                </li>
+                                <!-- SECCION INFRAESTRUCTURA -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Infraestructura Interna</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Trainer" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-golf"></i>
+                                        </span>
+                                        <span class="hide-menu">Instructores/Docentes</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Schedule" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-clock-hour-4"></i>
+                                        </span>
+                                        <span class="hide-menu">Horarios</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Course" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-award"></i>
+                                        </span>
+                                        <span class="hide-menu">Cursos</span>
+                                    </a>
+                                </li>
+                                <!-- SECCION SEGURIDAD -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Seguridad</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Role" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-git-fork"></i>
+                                        </span>
+                                        <span class="hide-menu">Roles</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="User" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-users"></i>
+                                        </span>
+                                        <span class="hide-menu">Usuarios</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="User" asp-action="ChangePassword" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-refresh"></i>
+                                        </span>
+                                        <span class="hide-menu">Cambiar Contraseña</span>
+                                    </a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Administrador"))
+                            {
+                                <!-- SECCION PRINCIPAL -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Principal</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Home" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-home"></i>
+                                        </span>
+                                        <span class="hide-menu">Inicio</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Home" asp-action="Dashboard" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-layout-dashboard"></i>
+                                        </span>
+                                        <span class="hide-menu">Dashboard</span>
+                                    </a>
+                                </li>
+                                <!-- SECCION DE REGISTRO -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">REGISTRO Y ASIGNACIÓN</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Student" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-school"></i>
+                                        </span>
+                                        <span class="hide-menu">Alumnnos/as</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="CourseAssignment" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-address-book"></i>
+                                        </span>
+                                        <span class="hide-menu">Asignación de Curso</span>
+                                    </a>
+                                </li>
+                                <!-- SECCION INFRAESTRUCTURA -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Infraestructura Interna</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Trainer" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-golf"></i>
+                                        </span>
+                                        <span class="hide-menu">Instructores/Docentes</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Schedule" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-clock-hour-4"></i>
+                                        </span>
+                                        <span class="hide-menu">Horarios</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Course" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-award"></i>
+                                        </span>
+                                        <span class="hide-menu">Cursos</span>
+                                    </a>
+                                </li>
+                                <!-- SECCION SEGURIDAD -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Seguridad</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="User" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-users"></i>
+                                        </span>
+                                        <span class="hide-menu">Usuarios</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="User" asp-action="ChangePassword" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-refresh"></i>
+                                        </span>
+                                        <span class="hide-menu">Cambiar Contraseña</span>
+                                    </a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Secretario/a"))
+                            {
+                                <!-- SECCION PRINCIPAL -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Principal</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Home" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-home"></i>
+                                        </span>
+                                        <span class="hide-menu">Inicio</span>
+                                    </a>
+                                </li>
+                                <!-- SECCION DE REGISTRO -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">REGISTRO Y ASIGNACIÓN</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Student" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-school"></i>
+                                        </span>
+                                        <span class="hide-menu">Alumnnos/as</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="CourseAssignment" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-address-book"></i>
+                                        </span>
+                                        <span class="hide-menu">Asignación de Curso</span>
+                                    </a>
+                                </li>
+                                <!-- SECCION INFRAESTRUCTURA -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Infraestructura Interna</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Trainer" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-golf"></i>
+                                        </span>
+                                        <span class="hide-menu">Instructores/Docentes</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Schedule" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-clock-hour-4"></i>
+                                        </span>
+                                        <span class="hide-menu">Horarios</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Course" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-award"></i>
+                                        </span>
+                                        <span class="hide-menu">Cursos</span>
+                                    </a>
+                                </li>
+                                <!-- SECCION SEGURIDAD -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Seguridad</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="User" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-users"></i>
+                                        </span>
+                                        <span class="hide-menu">Usuarios</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="User" asp-action="ChangePassword" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-refresh"></i>
+                                        </span>
+                                        <span class="hide-menu">Cambiar Contraseña</span>
+                                    </a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Instructor/Docente"))
+                            {
+                                <!-- SECCION PRINCIPAL -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Principal</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Home" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-home"></i>
+                                        </span>
+                                        <span class="hide-menu">Inicio</span>
+                                    </a>
+                                </li>
+
+
+
+                                <!-- SECCION SEGURIDAD -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Seguridad</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="User" asp-action="ChangePassword" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-refresh"></i>
+                                        </span>
+                                        <span class="hide-menu">Cambiar Contraseña</span>
+                                    </a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Alumno/a"))
+                            {
+                                <!-- SECCION PRINCIPAL -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Principal</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="Home" asp-action="Index" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-home"></i>
+                                        </span>
+                                        <span class="hide-menu">Inicio</span>
+                                    </a>
+                                </li>
+
+
+
+                                <!-- SECCION SEGURIDAD -->
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                    <span class="hide-menu">Seguridad</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" asp-area="" asp-controller="User" asp-action="ChangePassword" aria-expanded="false">
+                                        <span>
+                                            <i class="ti ti-refresh"></i>
+                                        </span>
+                                        <span class="hide-menu">Cambiar Contraseña</span>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
