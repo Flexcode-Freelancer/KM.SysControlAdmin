@@ -16,7 +16,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace KM.SysControlAdmin.WebApp.Controllers.User___Controller
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Desarrollador, Administrador, Secretario/a")]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Desarrollador, Administrador, Secretario/a, Instructor/Docente, Alumno/a")]
     public class UserController : Controller
     {
         // Creamos Las Instancias Para Acceder a Los Metodos
@@ -253,7 +253,7 @@ namespace KM.SysControlAdmin.WebApp.Controllers.User___Controller
 
         #region METODO PARA DETALLES
         // Accion Que Muestra El Formulario
-        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a")]
+        [Authorize(Roles = "Desarrollador, Administrador, Secretario/a, Instructor/Docente, Alumno/a")]
         public async Task<IActionResult> Information()
         {
             try
