@@ -56,6 +56,9 @@
                 @Html.DisplayNameFor(model => model.StudentCode)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.ProjectCode)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.ParticipantCode)
             </th>
             <th>
@@ -74,6 +77,16 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.StudentCode)
                 </td>
+                @if (item.ProjectCode == "")
+                {
+                    <td>NO APLICA</td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectCode)
+                    </td>
+                }
                 @if (item.ParticipantCode == "")
                 {
                     <td>NO APLICA</td>
@@ -91,8 +104,8 @@
                     @Html.DisplayFor(modelItem => item.LastName)
                 </td>
                 <td>
-                    @Html.ActionLink("Modificar", "Edit", new { id = item.Id }, new { @class = "btn btn-warning m-1" }) |
-                    @Html.ActionLink("Detalles", "Details", new { id = item.Id }, new { @class = "btn btn-outline-info m-1" }) |
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-warning m-1" }) |
+                    @Html.ActionLink("Detalle", "Details", new { id = item.Id }, new { @class = "btn btn-outline-info m-1" }) |
                     @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-danger m-1" }) |
                     @Html.ActionLink("PDF", "GeneratePDFfile", new { id = item.Id }, new { @class = "btn btn-outline-info m-1" })
                 </td>
