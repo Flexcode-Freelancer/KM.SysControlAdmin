@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 // Referencias Necesarias Para El Correcto Funcionamiento
@@ -214,5 +215,63 @@ namespace KM.SysControlAdmin.DAL.Course___DAL
             return courses;
         }
         #endregion
+
+
+
+
+
+        #region LOGICA PARA MOSTRA LISTA DE CURSOS ASIGNADO AL DOCENTE
+            #region MÉTODO PARA OBTENER EL ID DEL INSTRUCTOR DESDE LOS CLAIMS
+            // Método que obtiene el ID del instructor desde los Claims
+            private static int GetTrainerIdFromClaims(ClaimsPrincipal user)
+            {
+                var trainerIdClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+                if (int.TryParse(trainerIdClaim, out int trainerId))
+                {
+                    return trainerId;
+                }
+
+                throw new Exception("No se pudo encontrar al Instructor/Docente");
+            }
+            #endregion
+
+            #region MÉTODO PARA MOSTRAR CURSOS ASIGNADOS A UN INSTRUCTOR
+            // Método para traer la lista de cursos asignados al instructor autenticado
+            public static async Task<List<Course>> GetAllByTrainerAsync(ClaimsPrincipal user)
+            {
+                using (var dbContext = new ContextDB())
+                {
+                    int trainerId = GetTrainerIdFromClaims(user); // Obtén el ID del instructor desde los claims
+
+                    return await dbContext.Course
+                        .Where(c => c.IdTrainer == trainerId) // Filtrar por el ID del instructor
+                        .ToListAsync();
+                }
+            }
+            #endregion
+
+            #region MÉTODO PARA BUSCAR CURSOS INCLUYENDO HORARIO E INSTRUCTOR ASIGNADOS A UN INSTRUCTOR
+            // Método para buscar cursos asignados al instructor autenticado, incluyendo horario e instructor
+            public static async Task<List<Course>> SearchIncludeScheduleAndTrainerByTrainerAsync(ClaimsPrincipal user, Course course)
+            {
+                using (var dbContext = new ContextDB())
+                {
+                    int trainerId = GetTrainerIdFromClaims(user); // Obtén el ID del instructor desde los claims
+
+                    var select = dbContext.Course.AsQueryable();
+
+                    // Aplicar los filtros del curso recibido y el ID del instructor
+                    select = QuerySelect(select, course)
+                        .Where(c => c.IdTrainer == trainerId) // Filtrar por el instructor autenticado
+                        .Include(c => c.Schedule)            // Incluir información del horario
+                        .Include(c => c.Trainer);            // Incluir información del instructor
+
+                    return await select.ToListAsync();
+                }
+            }
+            #endregion
+        #endregion
+
     }
 }

@@ -1,0 +1,148 @@
+﻿@using KM.SysControlAdmin.EN.Schedule___EN
+@model IEnumerable<KM.SysControlAdmin.EN.Course___EN.Course>
+
+@{
+    ViewData["Title"] = "Mis Cursos";
+}
+
+<h1>Mis Cursos</h1>
+<hr />
+<div class="container">
+    <form asp-action="MyCourses">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Code">Código</label>
+                    <input type="text" class="form-control" name="Code" placeholder="Ingresar" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Name">Nombre</label>
+                    <input type="text" class="form-control" name="Name" placeholder="Ingresar" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Status">Estatus</label>
+                    <select class="form-select" name="Status">
+                        <option selected value="0">Seleccionar</option>
+                        <option value="1">Activo</option>
+                        <option value="2">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <input type="submit" class="btn btn-outline-success m-1" value="Buscar Curso" /> &nbsp;&nbsp;
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<br />
+<br />
+<h2>Tabla de Resultados</h2>
+<br />
+<table id="ResultData" class="hover" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxStudent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaxStudent) Máximo
+                </td>
+                @if (item.Status == 1)
+                {
+                    <td>Activo</td>
+                }
+                else if (item.Status == 2)
+                {
+                    <td>Inactivo</td>
+                }
+                else
+                {
+                    <td></td>
+                }
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-warning m-1" }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.Id }, new { @class = "btn btn-outline-info m-1" }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-danger m-1" }) |
+                    @Html.ActionLink("PDF", "GeneratePDFfile", new { id = item.Id }, new { @class = "btn btn-outline-info m-1" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        new DataTable('#ResultData', {
+            info: false,
+            order: false,
+            Response: true,
+            pagingType: 'simple_numbers',
+            language: {
+                search: 'Búsqueda Rápida:',
+                searchPlaceholder: 'Ingresar',
+                lengthMenu: '_MENU_ Mostrar',
+                emptyTable: 'No hay datos que coincidan con su criterio de búsqueda.',
+                zeroRecords: 'No existen registros según la búsqueda',
+                processing: 'Procesando...',
+            }
+        });
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 8000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+        });
+        // Comprobar si hay mensajes de éxito y mostrar notificaciones del sistema
+        const successMessages = {
+            Creado: '@TempData["SuccessMessageCreate"]',
+            Modificado: '@TempData["SuccessMessageUpdate"]',
+            Eliminado: '@TempData["SuccessMessageDelete"]'
+        };
+        for (const messageType in successMessages) {
+            const message = successMessages[messageType];
+            if (message) {
+                Toast.fire({
+                    icon: "success",
+                    title: `¡${messageType} Exitosamente!`,
+                    text: message
+                });
+            }
+        }
+    </script>
+}

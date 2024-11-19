@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 // Referencias Necesarias Para El Correcto Funcionamiento
@@ -53,7 +54,6 @@ namespace KM.SysControlAdmin.BL.Course__BL
         {
             return await CourseDAL.GetByIdAsync(course);
         }
-        #endregion
 
         // Metodo para que admita int al hacer uso del metodo antecesor para automatizacion.
         public async Task<Course> GetByIdAsync(int id)
@@ -64,6 +64,7 @@ namespace KM.SysControlAdmin.BL.Course__BL
             // Llamar al método existente con el objeto Membership
             return await CourseDAL.GetByIdAsync(course);
         }
+        #endregion
 
         #region METODO PARA BUSCAR
         // Metodo Para Buscar Registros Existentes
@@ -77,6 +78,23 @@ namespace KM.SysControlAdmin.BL.Course__BL
         public async Task<List<Course>> SearchIncludeScheduleAndTrainerAsync(Course course)
         {
             return await CourseDAL.SearchIncludeScheduleAndTrainerAsync(course);
+        }
+        #endregion
+
+
+        #region MÉTODO PARA MOSTRAR CURSOS ASIGNADOS A UN INSTRUCTOR
+        // Método para mostrar una lista de cursos asignados al instructor autenticado
+        public async Task<List<Course>> GetAllByTrainerAsync(ClaimsPrincipal user)
+        {
+            return await CourseDAL.GetAllByTrainerAsync(user); // Delegación directa al método DAL
+        }
+        #endregion
+
+        #region MÉTODO PARA BUSCAR CURSOS INCLUYENDO HORARIO E INSTRUCTOR ASIGNADOS A UN INSTRUCTOR
+        // Método para buscar cursos asignados al instructor autenticado, incluyendo horario e instructor
+        public async Task<List<Course>> SearchIncludeScheduleAndTrainerByTrainerAsync(ClaimsPrincipal user, Course course)
+        {
+            return await CourseDAL.SearchIncludeScheduleAndTrainerByTrainerAsync(user, course); // Delegación directa al método DAL
         }
         #endregion
     }
